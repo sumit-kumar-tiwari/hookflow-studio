@@ -9,13 +9,18 @@ def sanitize_filename(name: str) -> str:
     return re.sub(r'[\\/*?:"<>|]', "", name).replace(" ", "_")
 
 def extract_youtube_id(url: str) -> str:
-    m = re.search(r'(?:youtu\.be/|youtube\.com/(?:embed/|v/|watch\?v=|watch\?.+&v=|shorts/))([\w-]{11})', url)
+    if not url:
+        return None
+    url = url.strip()
+    if re.match(r'^[\w-]{11}$', url):
+        return url
+    m = re.search(r'(?:v=|\/v\/|\/embed\/|\/shorts\/|\/live\/|youtu\.be\/)([\w-]{11})', url)
     return m.group(1) if m else None
 
 def get_base_ydl_opts(output_dir: str) -> dict:
     """
     Returns rock-solid yt-dlp options configured for cloud datacenters (Render/AWS/etc.)
-    and local setups.
+    and local setups. Uses iOS & Android clients which do NOT require a JS player or PO Token.
     """
     opts = {
         'outtmpl': os.path.join(output_dir, '%(id)s.%(ext)s'),
@@ -30,7 +35,7 @@ def get_base_ydl_opts(output_dir: str) -> dict:
         'nocheckcertificate': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['tv_samsung', 'android', 'ios', 'web'],
+                'player_client': ['ios', 'android', 'android_vr', 'web'],
             }
         },
         'http_headers': {
@@ -47,7 +52,7 @@ def stream_download_file(url: str, out_path: str, progress_hook=None):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
     }
-    with requests.get(url, stream=True, headers=headers, timeout=35) as r:
+    with requests.get(url, stream=True, headers=headers, timeout=40) as r:
         r.raise_for_status()
         total_size = int(r.headers.get('content-length', 0))
         downloaded = 0
@@ -66,11 +71,110 @@ def stream_download_file(url: str, out_path: str, progress_hook=None):
     if progress_hook:
         progress_hook({'status': 'finished'})
 
-def download_via_invidious(video_id: str, output_dir: str, quality: str = "video_best", progress_hook=None) -> dict:
-    """
-    High-reliability fallback downloader using public Invidious instances.
-    Bypasses datacenter bot blocks and extracts clean video and audio streams directly.
-    """
+def download_via_cobalt(video_id: str, output_dir: str, quality: str = "video_best", progress_hook=None):
+    """Fallback 1: High-speed Cobalt API Stream Resolver"""
+    cobalt_endpoints = [
+        "https://cobalt-backend.canine.tools/",
+        "https://api.cobalt.tools/",
+        "https://cobalt.kwiatekm.pl/"
+    ]
+    is_audio = quality.startswith("audio_")
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    target_q = "1080" if "1080" in quality or "best" in quality else ("720" if "720" in quality else "480")
+    payload = {
+        "url": url,
+        "videoQuality": target_q,
+        "downloadMode": "audio" if is_audio else "auto",
+        "audioFormat": "mp3" if is_audio else "best"
+    }
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "HookFlow/2.0"
+    }
+    for endpoint in cobalt_endpoints:
+        try:
+            r = requests.post(endpoint, json=payload, headers=headers, timeout=12)
+            if r.status_code == 200:
+                data = r.json()
+                stream_url = data.get("url")
+                if stream_url:
+                    file_id = str(uuid.uuid4())[:8]
+                    ext = "mp3" if is_audio else "mp4"
+                    final_filename = f"{file_id}_video_{video_id}.{ext}"
+                    final_path = os.path.join(output_dir, final_filename)
+                    stream_download_file(stream_url, final_path, progress_hook)
+                    return {
+                        'file_path': os.path.abspath(final_path),
+                        'filename': final_filename,
+                        'title': f"YouTube Video ({video_id})",
+                        'duration': 0,
+                        'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                    }
+        except Exception:
+            continue
+    return None
+
+def download_via_piped(video_id: str, output_dir: str, quality: str = "video_best", progress_hook=None):
+    """Fallback 2: Piped API Stream Resolver"""
+    piped_endpoints = [
+        "https://pipedapi.kavin.rocks",
+        "https://api.piped.privacydev.net",
+        "https://piped-api.lunar.icu",
+        "https://pipedapi.tokhmi.xyz"
+    ]
+    for endpoint in piped_endpoints:
+        try:
+            r = requests.get(f"{endpoint}/streams/{video_id}", timeout=10)
+            if r.status_code == 200:
+                data = r.json()
+                title = sanitize_filename(data.get("title", f"video_{video_id}"))[:50]
+                duration = data.get("duration", 0)
+                file_id = str(uuid.uuid4())[:8]
+                is_audio = quality.startswith("audio_")
+                ext = "mp3" if is_audio else "mp4"
+                final_filename = f"{file_id}_{title}.{ext}"
+                final_path = os.path.join(output_dir, final_filename)
+
+                if is_audio:
+                    audio_streams = data.get("audioStreams", [])
+                    if audio_streams:
+                        audio_streams.sort(key=lambda x: int(x.get("bitrate") or 0), reverse=True)
+                        stream_url = audio_streams[0].get("url")
+                        temp_a = os.path.join(output_dir, f"{file_id}_a.tmp")
+                        stream_download_file(stream_url, temp_a, progress_hook)
+                        cmd = ["ffmpeg", "-y", "-i", temp_a, "-vn", "-b:a", "320k", final_path]
+                        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+                        if os.path.exists(temp_a):
+                            try: os.remove(temp_a)
+                            except: pass
+                        return {
+                            'file_path': os.path.abspath(final_path),
+                            'filename': final_filename,
+                            'title': data.get("title", "Audio"),
+                            'duration': duration,
+                            'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                        }
+                else:
+                    video_streams = [s for s in data.get("videoStreams", []) if not s.get("videoOnly")]
+                    if not video_streams:
+                        video_streams = data.get("videoStreams", [])
+                    if video_streams:
+                        stream_url = video_streams[0].get("url")
+                        stream_download_file(stream_url, final_path, progress_hook)
+                        return {
+                            'file_path': os.path.abspath(final_path),
+                            'filename': final_filename,
+                            'title': data.get("title", "Video"),
+                            'duration': duration,
+                            'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                        }
+        except Exception:
+            continue
+    return None
+
+def download_via_invidious(video_id: str, output_dir: str, quality: str = "video_best", progress_hook=None):
+    """Fallback 3: Invidious Instances Stream Resolver"""
     instances = [
         "https://inv.nadeko.net",
         "https://invidious.nerdvpn.de",
@@ -78,120 +182,80 @@ def download_via_invidious(video_id: str, output_dir: str, quality: str = "video
         "https://invidious.jing.rocks",
         "https://vid.priv.au"
     ]
-    data = None
     for inst in instances:
         try:
-            r = requests.get(f"{inst}/api/v1/videos/{video_id}", timeout=6)
+            r = requests.get(f"{inst}/api/v1/videos/{video_id}", timeout=8)
             if r.status_code == 200:
                 data = r.json()
-                if data and "title" in data:
-                    break
+                if not data or "title" not in data:
+                    continue
+                title = sanitize_filename(data.get("title", f"video_{video_id}"))[:50]
+                duration = data.get("lengthSeconds", 0)
+                file_id = str(uuid.uuid4())[:8]
+                is_audio = quality.startswith("audio_")
+                ext = "mp3" if is_audio else "mp4"
+                final_filename = f"{file_id}_{title}.{ext}"
+                final_path = os.path.join(output_dir, final_filename)
+
+                if is_audio:
+                    audio_streams = [f for f in data.get("adaptiveFormats", []) if str(f.get("type", "")).startswith("audio/")]
+                    if audio_streams:
+                        audio_streams.sort(key=lambda x: int(x.get("bitrate") or 0), reverse=True)
+                        stream_url = audio_streams[0].get("url")
+                    elif data.get("formatStreams"):
+                        stream_url = data["formatStreams"][-1].get("url")
+                    else:
+                        continue
+                    temp_audio = os.path.join(output_dir, f"{file_id}_raw_audio.tmp")
+                    stream_download_file(stream_url, temp_audio, progress_hook)
+                    cmd = ["ffmpeg", "-y", "-i", temp_audio, "-vn", "-b:a", "320k", final_path]
+                    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+                    if os.path.exists(temp_audio):
+                        try: os.remove(temp_audio)
+                        except: pass
+                    return {
+                        'file_path': os.path.abspath(final_path),
+                        'filename': final_filename,
+                        'title': title,
+                        'duration': duration,
+                        'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                    }
+                else:
+                    combined = [f for f in data.get("formatStreams", []) if f.get("container") == "mp4" or "mp4" in str(f.get("type", ""))]
+                    if combined:
+                        stream_download_file(combined[0].get("url"), final_path, progress_hook)
+                        return {
+                            'file_path': os.path.abspath(final_path),
+                            'filename': final_filename,
+                            'title': title,
+                            'duration': duration,
+                            'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                        }
         except Exception:
             continue
+    return None
 
-    if not data:
-        raise Exception(f"Video stream temporarily unavailable on cloud server for ID: {video_id}.")
+def download_fallback_engine(video_id: str, output_dir: str, quality: str = "video_best", progress_hook=None) -> dict:
+    """Tries Cobalt, Piped, and Invidious fallbacks in sequential order."""
+    # 1. Cobalt
+    res = download_via_cobalt(video_id, output_dir, quality=quality, progress_hook=progress_hook)
+    if res:
+        return res
+    # 2. Piped
+    res = download_via_piped(video_id, output_dir, quality=quality, progress_hook=progress_hook)
+    if res:
+        return res
+    # 3. Invidious
+    res = download_via_invidious(video_id, output_dir, quality=quality, progress_hook=progress_hook)
+    if res:
+        return res
 
-    title = data.get("title", f"Video_{video_id}")
-    clean_title = sanitize_filename(title)[:50]
-    duration = data.get("lengthSeconds", 0)
-    file_id = str(uuid.uuid4())[:8]
-
-    is_audio = quality.startswith("audio_")
-    out_ext = "mp3" if is_audio else "mp4"
-    final_filename = f"{file_id}_{clean_title}.{out_ext}"
-    final_path = os.path.join(output_dir, final_filename)
-
-    # 1. Audio Download Mode
-    if is_audio:
-        stream_url = None
-        audio_streams = [f for f in data.get("adaptiveFormats", []) if str(f.get("type", "")).startswith("audio/")]
-        if audio_streams:
-            audio_streams.sort(key=lambda x: int(x.get("bitrate") or 0), reverse=True)
-            stream_url = audio_streams[0].get("url")
-        elif data.get("formatStreams"):
-            stream_url = data["formatStreams"][-1].get("url")
-
-        if not stream_url:
-            raise Exception("No audio stream available.")
-
-        temp_audio = os.path.join(output_dir, f"{file_id}_raw_audio.tmp")
-        stream_download_file(stream_url, temp_audio, progress_hook)
-
-        bitrate = "320k" if "320" in quality else ("192k" if "192" in quality else "128k")
-        cmd = ["ffmpeg", "-y", "-i", temp_audio, "-vn", "-b:a", bitrate, final_path]
-        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-        if os.path.exists(temp_audio):
-            try: os.remove(temp_audio)
-            except: pass
-
-        return {
-            'file_path': os.path.abspath(final_path),
-            'filename': final_filename,
-            'title': title,
-            'duration': duration,
-            'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
-        }
-
-    # 2. Video Download Mode
-    target_res = "1080p" if "1080" in quality or "best" in quality else ("720p" if "720" in quality else ("480p" if "480" in quality else "360p"))
-
-    combined = [f for f in data.get("formatStreams", []) if f.get("container") == "mp4" or "mp4" in str(f.get("type", ""))]
-    matched = None
-    for f in combined:
-        if target_res in str(f.get("resolution", "")) or target_res in str(f.get("qualityLabel", "")):
-            matched = f
-            break
-    if not matched and combined:
-        matched = combined[0]
-
-    if matched and (target_res in ["720p", "480p", "360p"] or not data.get("adaptiveFormats")):
-        stream_download_file(matched.get("url"), final_path, progress_hook)
-    else:
-        # Separate video + audio streams muxing
-        video_streams = [f for f in data.get("adaptiveFormats", []) if "video/mp4" in str(f.get("type", ""))]
-        if not video_streams:
-            video_streams = [f for f in data.get("adaptiveFormats", []) if "video/" in str(f.get("type", ""))]
-
-        v_url = None
-        for v in video_streams:
-            if target_res in str(v.get("resolution", "")) or target_res in str(v.get("qualityLabel", "")):
-                v_url = v.get("url")
-                break
-        if not v_url and video_streams:
-            v_url = video_streams[0].get("url")
-
-        audio_streams = [f for f in data.get("adaptiveFormats", []) if "audio/" in str(f.get("type", ""))]
-        a_url = audio_streams[0].get("url") if audio_streams else None
-
-        if v_url and a_url:
-            temp_v = os.path.join(output_dir, f"{file_id}_v.tmp")
-            temp_a = os.path.join(output_dir, f"{file_id}_a.tmp")
-            stream_download_file(v_url, temp_v, progress_hook)
-            stream_download_file(a_url, temp_a, None)
-            cmd = ["ffmpeg", "-y", "-i", temp_v, "-i", temp_a, "-c:v", "copy", "-c:a", "aac", final_path]
-            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-            for t in [temp_v, temp_a]:
-                if os.path.exists(t):
-                    try: os.remove(t)
-                    except: pass
-        elif matched:
-            stream_download_file(matched.get("url"), final_path, progress_hook)
-        else:
-            raise Exception("No suitable video stream found.")
-
-    return {
-        'file_path': os.path.abspath(final_path),
-        'filename': final_filename,
-        'title': title,
-        'duration': duration,
-        'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
-    }
+    raise Exception(f"Video stream temporarily unavailable on cloud server for ID: {video_id}. Please try another resolution.")
 
 def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
     """
     Downloads a video from YouTube or any supported platform via yt-dlp,
-    with automatic fallback to Invidious stream resolver if yt-dlp is bot-blocked.
+    with automatic multi-provider fallback.
     """
     os.makedirs(output_dir, exist_ok=True)
     ydl_opts = get_base_ydl_opts(output_dir)
@@ -231,7 +295,7 @@ def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
         print(f"[HookFlow] yt-dlp download failed: {e}. Attempting stream fallback...")
         vid = extract_youtube_id(url)
         if vid:
-            res = download_via_invidious(vid, output_dir, quality="video_720", progress_hook=progress_hook)
+            res = download_fallback_engine(vid, output_dir, quality="video_720", progress_hook=progress_hook)
             return {
                 'video_path': res['file_path'],
                 'title': res['title'],
@@ -243,7 +307,7 @@ def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
 def download_media_direct(url: str, output_dir: str, quality="video_1080", progress_hook=None) -> dict:
     """
     Direct media download for YouTube with flexible resolutions and formats:
-    Uses primary yt-dlp with automatic high-availability Invidious fallback.
+    Uses primary yt-dlp with multi-tiered cloud stream resolvers (Cobalt, Piped, Invidious).
     """
     os.makedirs(output_dir, exist_ok=True)
     file_id = str(uuid.uuid4())[:8]
@@ -326,8 +390,8 @@ def download_media_direct(url: str, output_dir: str, quality="video_1080", progr
                 'filesize': os.path.getsize(filename) if os.path.exists(filename) else 0
             }
     except Exception as e:
-        print(f"[HookFlow] yt-dlp direct failed: {e}. Trying secondary stream resolvers...")
+        print(f"[HookFlow] yt-dlp direct failed: {e}. Trying multi-tiered stream resolvers...")
         vid = extract_youtube_id(url)
         if vid:
-            return download_via_invidious(vid, output_dir, quality=quality, progress_hook=progress_hook)
+            return download_fallback_engine(vid, output_dir, quality=quality, progress_hook=progress_hook)
         raise e

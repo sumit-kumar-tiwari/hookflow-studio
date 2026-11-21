@@ -936,6 +936,48 @@
         }
 
         // --- URL Input & Live Detection ---
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            url = url.trim();
+            if (/^[\w-]{11}$/.test(url)) return url;
+            try {
+                const u = new URL(url);
+                if (u.searchParams.has('v')) return u.searchParams.get('v');
+                const parts = u.pathname.split('/').filter(Boolean);
+                if (parts.length > 0) {
+                    const last = parts[parts.length - 1];
+                    if (/^[\w-]{11}$/.test(last)) return last;
+                }
+            } catch (_) {}
+            const m = url.match(/(?:v=|\/v\/|\/embed\/|\/shorts\/|\/live\/|youtu\.be\/)([\w-]{11})/i);
+            return m ? m[1] : null;
+        }
+
+        function showInstantPreview(vid) {
+            if (!vid) return;
+            const thumbEl = document.getElementById('yt-preview-thumb');
+            if (thumbEl) thumbEl.src = `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+            document.getElementById('yt-preview-card').classList.remove('hidden');
+            document.getElementById('yt-preview-title').innerText = "YouTube Video (" + vid + ")";
+            document.getElementById('yt-preview-channel').innerText = "Ready to download";
+            const statusTag = document.getElementById('url-status-tag');
+            if (statusTag) {
+                statusTag.innerText = "Video Detected ✓";
+                statusTag.className = "text-[10px] text-emerald-400 font-bold";
+            }
+            renderIcons();
+
+            // Client-side oEmbed for instant title
+            try {
+                fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${vid}`)
+                    .then(r => r.json())
+                    .then(d => {
+                        if (d && d.title) document.getElementById('yt-preview-title').innerText = d.title;
+                        if (d && d.author_name) document.getElementById('yt-preview-channel').innerText = d.author_name;
+                    }).catch(() => {});
+            } catch(_) {}
+        }
+
         function handleUrlInput(e) {
             const val = e.target.value.trim();
             const clearBtn = document.getElementById('btn-clear-url');
@@ -947,9 +989,14 @@
                 return;
             }
 
+            const vid = extractYouTubeId(val);
+            if (vid) {
+                showInstantPreview(vid);
+            }
+
             clearTimeout(ytDebounceTimer);
-            if (val.includes('youtube.com/') || val.includes('youtu.be/')) {
-                ytDebounceTimer = setTimeout(() => fetchYouTubeMetadata(val), 400);
+            if (val.includes('youtube.com/') || val.includes('youtu.be/') || vid) {
+                ytDebounceTimer = setTimeout(() => fetchYouTubeMetadata(val), 350);
             }
         }
 
@@ -983,38 +1030,11 @@
             }
         }
 
-        function extractYouTubeId(url) {
-            if (!url) return null;
-            const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/i);
-            return m ? m[1] : null;
-        }
-
         async function fetchYouTubeMetadata(url) {
             const statusTag = document.getElementById('url-status-tag');
-            statusTag.innerText = "Checking video...";
-            statusTag.className = "text-[10px] text-amber-400 font-bold animate-pulse";
-
             const vid = extractYouTubeId(url);
             if (vid) {
-                // Instant Zero-Delay Client-Side Preview (100% Guaranteed Thumbnail)
-                const thumbEl = document.getElementById('yt-preview-thumb');
-                if (thumbEl) thumbEl.src = `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
-                document.getElementById('yt-preview-card').classList.remove('hidden');
-                document.getElementById('yt-preview-title').innerText = "YouTube Video (" + vid + ")";
-                document.getElementById('yt-preview-channel').innerText = "Ready to download";
-                statusTag.innerText = "Video Detected ✓";
-                statusTag.className = "text-[10px] text-emerald-400 font-bold";
-                renderIcons();
-
-                // Quick client-side oEmbed for title
-                try {
-                    fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${vid}`)
-                        .then(r => r.json())
-                        .then(d => {
-                            if (d && d.title) document.getElementById('yt-preview-title').innerText = d.title;
-                            if (d && d.author_name) document.getElementById('yt-preview-channel').innerText = d.author_name;
-                        }).catch(() => {});
-                } catch(_) {}
+                showInstantPreview(vid);
             }
 
             try {
