@@ -350,6 +350,37 @@ def serve_captions(request: Request, background_tasks: BackgroundTasks):
             return f.read()
     return serve_index(request, background_tasks)
 
+@app.get("/robots.txt", response_class=HTMLResponse)
+def serve_robots():
+    content = """User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://hookflow-studio.onrender.com/sitemap.xml
+"""
+    return HTMLResponse(content=content, media_type="text/plain")
+
+@app.get("/sitemap.xml", response_class=HTMLResponse)
+def serve_sitemap():
+    content = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://hookflow-studio.onrender.com/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://hookflow-studio.onrender.com/captions</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
+"""
+    return HTMLResponse(content=content, media_type="application/xml")
+
 @app.get("/admin")
 def admin_portal():
     """Admin convenience route: Redirects to home with the secret admin sheet modal opened."""
