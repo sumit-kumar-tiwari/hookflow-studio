@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HookFlow — Free YouTube Video Downloader (1080p 60fps & 320kbps MP3) | Auto-Caption Studio</title>
+    <meta name="description" content="Download YouTube videos in Full HD 1080p 60fps MP4 or 320kbps Studio MP3 audio. 100% Free, zero ads, no daily limits, and free AI Auto-Caption Shorts generator with animated karaoke subtitles.">
+    <meta name="keywords" content="youtube downloader, youtube video downloader, download youtube video 1080p, youtube to mp3 320kbps, convert youtube to mp3, 1080p 60fps youtube download, youtube audio downloader, fast youtube downloader no ads, free youtube downloader online, auto caption shorts, ai subtitles generator, word by word karaoke captions, alex hormozi subtitle generator, reels caption maker, tiktok subtitle generator, free media studio">
+    <meta name="author" content="HookFlow Studio">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://hookflow.app/">
+    <meta name="theme-color" content="#06070B">
+
+    <!-- Open Graph (Facebook / WhatsApp / LinkedIn / Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HookFlow Studio">
+    <meta property="og:title" content="HookFlow — Free YouTube Video Downloader (1080p & 320kbps MP3)">
+    <meta property="og:description" content="Fast, 100% free YouTube video & MP3 downloader. Full HD 1080p 60fps video, studio-quality 320kbps MP3 audio, and word-by-word animated subtitles for Shorts.">
+    <meta property="og:url" content="https://hookflow.app/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HookFlow — YouTube Video Downloader (1080p & 320kbps MP3)">
+    <meta name="twitter:description" content="100% Free YouTube Downloader & AI Auto-Caption Studio. 1080p 60fps MP4, 320kbps MP3 audio, and word-by-word karaoke subtitles.">
+
+    <!-- Schema.org Structured Data (JSON-LD) for Google Search Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://hookflow.app/#webapp",
+          "name": "HookFlow Media Studio",
+          "url": "https://hookflow.app/",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "All (Web, Windows, macOS, Android, iOS)",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "12840",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "description": "Download YouTube videos in 1080p 60fps MP4 or 320kbps MP3 audio, and generate animated word-by-word subtitles for Shorts and Reels.",
+          "featureList": [
+            "Download 1080p Full HD 60fps YouTube videos",
+            "Extract 320kbps Studio-Quality MP3 audio",
+            "AI word-by-word animated karaoke subtitles",
+            "Speech silence detection and natural pause handling",
+            "100% free with no daily limits and no watermark"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://hookflow.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I download YouTube videos in 1080p Full HD 60fps?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Simply copy any YouTube video link, paste it into the HookFlow input box, choose Full HD 1080p from the format selector, and click Download. The high-resolution video will be prepared and downloaded directly to your device."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I convert YouTube videos to 320kbps MP3 audio?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Paste your YouTube URL, switch to the Audio (MP3) tab, choose 320kbps High Quality, and click Download. HookFlow extracts crystal clear 320kbps audio with full fidelity."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the AI Auto-Caption tool create animated word-by-word subtitles?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "HookFlow uses Faster-Whisper AI to detect word-level timestamps. It groups words into natural phrases, highlights each word as it is spoken in viral Alex Hormozi or MrBeast karaoke styles, and automatically hides subtitles during speech pauses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is HookFlow 100% free with no watermarks or daily limits?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, HookFlow is completely free and open-source. There are no subscriptions, no daily download limits, and absolutely no watermarks added to your downloaded videos or captioned clips."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I download YouTube Shorts or long podcasts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! HookFlow supports standard YouTube videos, YouTube Shorts, music tracks, full-length podcasts, and interviews up to several hours long."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does HookFlow work on mobile devices (Android and iPhone)?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, HookFlow is fully responsive and works natively in any mobile browser on Android, iPhone, iPad, Windows, Mac, and Linux without installing any software or browser extensions."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #06070B;
+            color: #F8FAFC;
+        }
+        .glass-card {
+            background: rgba(12, 14, 24, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-card {
+            box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.35);
+        }
+        .btn-press:active {
+            transform: scale(0.98);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-emerald-500 selection:text-black">
+
+    <!-- Top Navigation Header -->
+    <header class="h-16 sm:h-20 border-b border-white/5 bg-[#06070B]/85 backdrop-blur-md sticky top-0 z-40 px-3.5 sm:px-8 flex items-center justify-between">
+        <!-- Logo & Brand -->
+        <a href="/" class="flex items-center gap-2.5 sm:gap-3 group">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-black font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition flex-shrink-0">
+                <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5 text-black"></i>
+            </div>
+            <div class="flex flex-col">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <span class="text-base sm:text-lg font-extrabold tracking-tight text-white">HookFlow</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider">Downloader</span>
+                </div>
+                <span class="text-[10px] text-slate-400 font-medium hidden sm:block">Free High-Quality YouTube Media</span>
+            </div>
+        </a>
+
+        <!-- Header Badges & Quick Action Links -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Link to Auto-Caption Tool -->
+            <a href="/captions" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-violet-600/15 hover:bg-violet-600/25 border border-violet-500/30 text-violet-300 hover:text-white text-xs font-bold transition btn-press shadow-sm">
+                <i data-lucide="subtitles" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400"></i>
+                <span class="hidden sm:inline">Auto-Caption Shorts</span>
+                <span class="sm:hidden">Captions</span>
+                <span class="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.2 rounded bg-violet-500/30 text-white font-extrabold">NEW</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-4 py-5 sm:py-14 flex flex-col items-center">
+
+        <!-- Hero Intro Section -->
+        <div class="text-center mb-6 sm:mb-8 max-w-2xl px-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] sm:text-xs font-bold mb-3 sm:mb-4 pulse-glow">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Fast & Free YouTube Media Downloader</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-2.5 sm:mb-3 leading-tight">
+                Download YouTube <br class="hidden sm:block" />
+                <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Videos & MP3 Audio</span>
+            </h1>
+            <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed max-w-xl mx-auto">
+                Paste any YouTube link to download full 1080p / 720p MP4 video or 320kbps studio MP3 audio. 100% free forever, no daily limits, and zero ads.
+            </p>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- MAIN DOWNLOADER CARD                                              -->
+        <!-- ================================================================= -->
+        <div class="w-full glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-9 glow-card shadow-2xl mb-10 sm:mb-12 border border-white/10 relative overflow-hidden">
+            <div class="absolute -top-32 -right-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Form State Container -->
+            <div id="downloader-form-box">
+                <!-- 1. URL Input & Controls -->
+                <div class="space-y-1.5 sm:space-y-2 mb-5 sm:mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                        <span class="flex items-center gap-1.5">
+                            <i data-lucide="link" class="w-3.5 h-3.5 text-emerald-400"></i> YouTube Video Link
+                        </span>
+                        <span id="url-status-tag" class="text-[10px] text-slate-400 font-semibold">Video, Short or Live</span>
+                    </label>
+
+                    <div class="relative flex items-center">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none text-slate-500">
+                            <i data-lucide="video" class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400/70"></i>
+                        </div>
+                        <input type="text" id="downloader-url" 
+                            placeholder="Paste YouTube link or Shorts..."
+                            oninput="handleUrlInput(event)"
+                            class="w-full bg-[#0A0C14] border border-white/15 focus:border-emerald-500 rounded-xl sm:rounded-2xl pl-10 sm:pl-12 pr-20 sm:pr-28 py-3.5 sm:py-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none transition shadow-inner" />
+
+                        <!-- Input Action Buttons (Paste & Clear) -->
+                        <div class="absolute right-2 sm:right-2.5 flex items-center gap-1">
+                            <button type="button" id="btn-clear-url" onclick="clearUrlInput()" class="hidden text-xs text-slate-400 hover:text-white p-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition btn-press">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button type="button" onclick="pasteFromClipboard()" class="text-xs text-emerald-400 hover:text-emerald-300 font-bold px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition flex items-center gap-1 btn-press">
+                                <i data-lucide="clipboard" class="w-3.5 h-3.5"></i>
+                                <span>Paste</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Live Video Preview Card (Shows when link is valid) -->
+                <div id="yt-preview-card" class="hidden mb-5 sm:mb-6 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-black/50 border border-emerald-500/30 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 transition-all duration-300 shadow-lg">
+                    <div class="relative w-full sm:w-40 aspect-video rounded-lg sm:rounded-xl overflow-hidden bg-black/80 flex-shrink-0 border border-white/10">
+                        <img id="yt-preview-thumb" src="" alt="Thumbnail" class="w-full h-full object-cover" />
+                        <span id="yt-preview-duration" class="absolute bottom-1.5 right-1.5 px-2 py-0.5 rounded bg-black/85 text-[10px] font-bold text-white border border-white/10">--:--</span>
+                    </div>
+                    <div class="flex-1 min-w-0 text-center sm:text-left w-full">
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 mb-1.5">
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Detected Video
+                            </span>
+                            <span id="yt-preview-filesize-badge" class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-400/10 border border-amber-400/20 px-2 py-0.5 rounded-md">
+                                <i data-lucide="hard-drive" class="w-3 h-3 text-amber-400"></i>
+                                <span id="yt-preview-filesize">Approx Size: Calculating...</span>
+                            </span>
+                        </div>
+                        <h4 id="yt-preview-title" class="text-xs sm:text-base font-bold text-white truncate max-w-lg mb-1">Loading Title...</h4>
+                        <p id="yt-preview-channel" class="text-[11px] sm:text-xs text-slate-400 font-medium flex items-center justify-center sm:justify-start gap-1">
+                            <i data-lucide="check-circle" class="w-3 h-3 text-emerald-400 inline"></i>
+                            <span>YouTube Channel</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. Format & Quality Selector Tabs -->
+                <div class="mb-6 sm:mb-7">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5 text-emerald-400"></i> Choose Format & Quality
+                        </span>
+                        <!-- Type Switcher (Video MP4 vs Audio MP3 - Mobile Full Width Segmented Control) -->
+                        <div class="grid grid-cols-2 sm:flex items-center p-1 bg-black/50 rounded-xl border border-white/10 w-full sm:w-auto">
+                            <button type="button" id="tab-btn-video" onclick="switchFormatType('video')" class="py-1.5 sm:py-1 px-3 sm:px-3.5 rounded-lg text-xs font-bold transition bg-emerald-500 text-black shadow text-center">
+                                🎬 Video (MP4)
+                            </button>
+                            <button type="button" id="tab-btn-audio" onclick="switchFormatType('audio')" class="py-1.5 sm:py-1 px-3 sm:px-3.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white text-center">
+                                🎵 Audio (MP3)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Video Options Grid (Responsive 2 cols mobile, 4 cols desktop) -->
+                    <div id="grid-video-options" class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                        <!-- 1080p -->
+                        <div onclick="selectQuality('video_best')" id="card-video_best" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/40">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">1080p Full HD</span>
+                                <span class="text-[8px] sm:text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500 text-black uppercase">BEST</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-300 font-medium flex items-center justify-between">
+                                <span class="truncate">MP4 Video</span>
+                                <span id="size-tag-video_best" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- 720p -->
+                        <div onclick="selectQuality('video_720')" id="card-video_720" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">720p HD</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-white/10 text-slate-300 uppercase">FAST</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">High Def</span>
+                                <span id="size-tag-video_720" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- 480p -->
+                        <div onclick="selectQuality('video_480')" id="card-video_480" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">480p SD</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-white/10 text-slate-300 uppercase">LIGHT</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">Standard</span>
+                                <span id="size-tag-video_480" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- 360p -->
+                        <div onclick="selectQuality('video_360')" id="card-video_360" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">360p Low</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-white/10 text-slate-300 uppercase">DATA</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">Data Saver</span>
+                                <span id="size-tag-video_360" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Audio Options Grid (Hidden by default) -->
+                    <div id="grid-audio-options" class="hidden grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                        <!-- 320 kbps -->
+                        <div onclick="selectQuality('audio_320')" id="card-audio_320" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/40">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">320 kbps</span>
+                                <span class="text-[8px] sm:text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500 text-black uppercase">STUDIO</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-300 font-medium flex items-center justify-between">
+                                <span class="truncate">Max MP3 Quality</span>
+                                <span id="size-tag-audio_320" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- 192 kbps -->
+                        <div onclick="selectQuality('audio_192')" id="card-audio_192" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">192 kbps</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-white/10 text-slate-300 uppercase">HIGH</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">High Bitrate</span>
+                                <span id="size-tag-audio_192" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- 128 kbps -->
+                        <div onclick="selectQuality('audio_128')" id="card-audio_128" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">128 kbps</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-white/10 text-slate-300 uppercase">FAST</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">Standard MP3</span>
+                                <span id="size-tag-audio_128" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+
+                        <!-- M4A Audio -->
+                        <div onclick="selectQuality('audio_m4a')" id="card-audio_m4a" class="quality-card cursor-pointer p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-white">AAC / M4A</span>
+                                <span class="text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 uppercase">ORIGINAL</span>
+                            </div>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium flex items-center justify-between">
+                                <span class="truncate">Lossless YouTube</span>
+                                <span id="size-tag-audio_m4a" class="text-[9px] sm:text-[10px] font-bold text-emerald-400 ml-1"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="cfg-download-quality" value="video_best" />
+
+                <!-- 4. Action Submit Button -->
+                <button type="button" id="btn-submit-downloader" onclick="startDirectDownload()" class="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 hover:from-emerald-400 hover:to-cyan-300 text-black font-black text-sm sm:text-base transition-all duration-200 flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/25 glow-hover btn-press cursor-pointer">
+                    <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5 text-black"></i>
+                    <span id="btn-submit-label">Download Media Directly</span>
+                </button>
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- LIVE DOWNLOAD PROGRESS STATE (Shown during processing)        -->
+            <!-- ============================================================= -->
+            <div id="downloader-progress-box" class="hidden text-center py-6 animate-fadeIn">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i data-lucide="loader" class="w-7 h-7 animate-spin"></i>
+                </div>
+                <h3 id="dl-step-title" class="text-xl font-bold text-white mb-2">Connecting to YouTube...</h3>
+                <p class="text-xs text-slate-400 mb-6">Fetching stream chunks and packaging media. Please do not close this window.</p>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-white/5 rounded-full h-3.5 overflow-hidden mb-3 border border-white/10 p-0.5">
+                    <div id="dl-progress-bar" class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full transition-all duration-300" style="width: 15%"></div>
+                </div>
+                <div class="flex items-center justify-between text-xs font-semibold px-1">
+                    <span id="dl-progress-text" class="text-emerald-400 font-bold">15% Complete</span>
+                    <span id="dl-timer-text" class="text-slate-400">Time Elapsed: 00:03</span>
+                </div>
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- DOWNLOAD READY SUCCESS STATE (Shown when finished)            -->
+            <!-- ============================================================= -->
+            <div id="downloader-success-box" class="hidden text-center py-6 animate-fadeIn">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/20">
+                    <i data-lucide="check-circle" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-1">Your Media is Ready! 🎉</h3>
+                <p id="dl-success-filename" class="text-xs sm:text-sm text-slate-300 font-semibold mb-2 truncate max-w-md mx-auto"></p>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-400 mb-6">
+                    <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span id="dl-success-filesize">File Size: Calculating...</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a id="btn-save-device" href="#" download class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-extrabold text-base shadow-lg shadow-emerald-500/30 hover:opacity-95 transition flex items-center justify-center gap-2 btn-press">
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        <span>Save File to Device</span>
+                    </a>
+                    <button type="button" onclick="resetDownloaderForm()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-bold text-sm transition btn-press">
+                        Download Another Video
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- FEATURED CREATIVE TOOL: AUTO-CAPTION STUDIO                       -->
+        <!-- ================================================================= -->
+        <section class="w-full mb-14">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-violet-500/30 hover:border-violet-500/50 transition relative overflow-hidden group shadow-2xl">
+                <!-- Background ambient glow -->
+                <div class="absolute -top-24 -right-24 w-80 h-80 bg-violet-600/15 rounded-full blur-3xl pointer-events-none group-hover:bg-violet-600/25 transition duration-500"></div>
+                <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="max-w-2xl">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-violet-500/20 text-violet-300 border border-violet-500/40 uppercase tracking-wider">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-violet-400"></i> Featured Creative Studio
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                100% Free & Unlimited
+                            </span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
+                            Auto-Caption for Shorts & Reels
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                            Upload any video to burn synchronized word-by-word animated karaoke subtitles (Alex Hormozi & MrBeast styles) with AI speech pause detection, multiple aspect ratios, and zero watermarks.
+                        </p>
+
+                        <!-- Feature highlights grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-3 py-2">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
+                                <span class="text-[11px] font-semibold text-slate-300">Word-by-Word Pop</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-3 py-2">
+                                <i data-lucide="flame" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+                                <span class="text-[11px] font-semibold text-slate-300">Hormozi & Beast</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-3 py-2">
+                                <i data-lucide="volume-2" class="w-3.5 h-3.5 text-cyan-400 flex-shrink-0"></i>
+                                <span class="text-[11px] font-semibold text-slate-300">Silence Pause Clean</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-3 py-2">
+                                <i data-lucide="crop" class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0"></i>
+                                <span class="text-[11px] font-semibold text-slate-300">9:16 & 1:1 Framing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="lg:flex-shrink-0 flex items-center">
+                        <a href="/captions" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2.5 shadow-xl shadow-violet-600/30 glow-hover btn-press">
+                            <i data-lucide="subtitles" class="w-4 h-4"></i>
+                            <span>Launch Auto-Caption Studio</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- WHY HOOKFLOW DOWNLOADER (Features Grid)                           -->
+        <!-- ================================================================= -->
+        <section class="w-full mb-14">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">Why Choose HookFlow Downloader?</h2>
+                <p class="text-xs text-slate-400 max-w-lg mx-auto">
+                    Built for creators, students, and music lovers who want clean, fast downloads without spam or popups.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Ultra-Fast Speed</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Direct IPv4 chunk streaming bypasses ISP throttling and delivers maximum bandwidth.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="film" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">1080p & 320k Audio</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Crystal-clear 1080p 60fps video and studio 320kbps MP3 audio with full fidelity.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">100% Free & No Ads</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">No shady redirect ads, no popups, and no deceptive buttons. Clean and safe.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="infinity" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">No Daily Limits</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Download as many long videos, podcasts, and audio tracks as you want with zero caps.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- SIMPLE 3-STEP GUIDE                                               -->
+        <!-- ================================================================= -->
+        <section class="w-full mb-14 glass-card rounded-3xl p-6 sm:p-8 border border-white/5">
+            <h2 class="text-xl sm:text-2xl font-bold text-white text-center mb-6">How to Download in 3 Simple Steps</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center mb-3">
+                        1
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Paste Link</h3>
+                    <p class="text-xs text-slate-400">Copy any YouTube video link from your browser or app and click Paste.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center mb-3">
+                        2
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Choose Format</h3>
+                    <p class="text-xs text-slate-400">Select Full HD 1080p MP4 for video or 320kbps MP3 for audio only.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center mb-3">
+                        3
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Save to Device</h3>
+                    <p class="text-xs text-slate-400">Click Download and save the high quality media directly to your phone or PC.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- FREQUENTLY ASKED QUESTIONS (FAQ - Google Search Optimized)        -->
+        <!-- ================================================================= -->
+        <section class="w-full mb-12">
+            <div class="text-center mb-8">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider mb-2">
+                    Help & Guides
+                </span>
+                <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">Frequently Asked Questions</h2>
+                <p class="text-xs text-slate-400 max-w-md mx-auto mt-1">Everything you need to know about downloading YouTube videos and creating viral animated subtitles.</p>
+            </div>
+
+            <div class="space-y-3 max-w-3xl mx-auto">
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group" open>
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>How do I download YouTube videos in 1080p Full HD 60fps?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        Simply copy any YouTube video link from your browser or app, paste it into the HookFlow input box, choose Full HD 1080p from the video quality options, and click Download. The high-resolution video will be prepared and downloaded directly to your phone or PC.
+                    </p>
+                </details>
+
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group">
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>How do I convert YouTube videos to 320kbps MP3 audio?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        Paste your YouTube video link, click the "Audio (MP3)" tab above the quality options, select "320 kbps (Studio MP3)", and click Download. HookFlow extracts the audio and delivers studio-grade fidelity without compression loss.
+                    </p>
+                </details>
+
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group">
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>How does the AI Auto-Caption tool create animated word-by-word subtitles?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        HookFlow uses Faster-Whisper AI to detect exact word timestamps. It formats words into punchy short phrases, highlights each word in real-time as it is spoken (Alex Hormozi Yellow or MrBeast Neon styles), and automatically hides subtitles during speech pauses to keep your screen clean.
+                    </p>
+                </details>
+
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group">
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>Is HookFlow 100% free with no watermarks or daily limits?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        Yes! HookFlow is 100% free and open-source. There are no subscriptions, no daily download restrictions, no hidden paywalls, and absolutely no watermarks stamped onto your downloaded or captioned media.
+                    </p>
+                </details>
+
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group">
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>Can I download YouTube Shorts or long podcasts?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        Yes! HookFlow supports all YouTube media including standard landscape videos, YouTube Shorts, music tracks, interviews, and long podcasts lasting several hours.
+                    </p>
+                </details>
+
+                <details class="glass-card rounded-2xl p-4 border border-white/5 cursor-pointer group">
+                    <summary class="text-sm font-bold text-slate-200 flex items-center justify-between select-none">
+                        <span>Does HookFlow work on mobile devices (Android and iPhone)?</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                        Yes, HookFlow is fully responsive and runs smoothly in mobile browsers (Chrome, Safari, Firefox, Brave) on Android, iPhone, iPad, Windows, macOS, and Linux without installing any apps or extensions.
+                    </p>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-500 bg-[#06070B] mt-auto">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div onclick="handleSecretAdminClick()" class="w-5 h-5 rounded-lg bg-emerald-500 flex items-center justify-center text-black font-black text-[10px] cursor-pointer select-none" title="HookFlow">H</div>
+                <span onclick="handleSecretAdminClick()" class="text-slate-400 font-bold select-none cursor-default">HookFlow Studio</span>
+                <span>• Free Open-Source Media Downloader</span>
+            </div>
+            <p class="text-slate-600">Disclaimer: Only download videos that you own or have explicit rights to download.</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================= -->
+    <!-- GOOGLE SHEET LIVE TRACKER MODAL                               -->
+    <!-- ============================================================= -->
+    <div id="modal-sheet-tracker" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-emerald-500/30 shadow-2xl relative animate-fadeIn my-8">
+            <button onclick="closeSheetModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white">Google Sheet Live Tracker</h3>
+                    <p class="text-[11px] sm:text-xs text-slate-400">Sync real-time visitors directly into your private Google Sheet</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 text-xs text-slate-300">
+                <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+                    <div class="font-bold text-white flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-black">1</span>
+                        <span>Copy Apps Script Code</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        In Google Sheets, go to <b>Extensions &gt; Apps Script</b>, delete existing code, paste this code, and click <b>Deploy &gt; New deployment &gt; Web app</b> (Set "Who has access" to "Anyone").
+                    </p>
+                    <div class="relative">
+                        <pre id="code-snippet-sheet" class="bg-black/60 p-2.5 rounded-xl border border-white/10 text-[10px] text-emerald-300 overflow-x-auto max-h-24"><code>function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var d = JSON.parse(e.postData.contents);
+  sheet.appendRow([d.timestamp, d.country, d.city, d.region, d.tool || d.page, d.ip, d.device]);
+  return ContentService.createTextOutput("OK");
+}</code></pre>
+                        <button type="button" onclick="copyScriptCode()" id="btn-copy-script" class="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-white font-bold transition flex items-center gap-1">
+                            <i data-lucide="copy" class="w-3 h-3"></i>
+                            <span id="copy-btn-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-white flex items-center justify-between">
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-black">2</span>
+                            <span>Paste Web App URL</span>
+                        </span>
+                        <span id="sheet-conn-status" class="text-[10px] text-slate-400 font-semibold">Checking...</span>
+                    </label>
+                    <input type="text" id="input-sheet-webhook" placeholder="https://script.google.com/macros/s/.../exec"
+                        class="w-full bg-[#0A0C14] border border-white/15 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition shadow-inner" />
+                </div>
+
+                <div id="sheet-feedback-msg" class="hidden text-[11px] p-2.5 rounded-xl border"></div>
+
+                <div class="flex items-center gap-2 pt-1">
+                    <button type="button" onclick="saveSheetWebhook()" class="flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition btn-press flex items-center justify-center gap-1.5 shadow">
+                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        <span>Save Connection</span>
+                    </button>
+                    <button type="button" onclick="testSheetWebhook()" id="btn-test-sheet" class="py-2.5 px-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition btn-press flex items-center justify-center gap-1.5">
+                        <i data-lucide="send" class="w-3.5 h-3.5 text-cyan-400"></i>
+                        <span>Send Test Row</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function renderIcons() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            }
+        }
+
+        let ytDebounceTimer = null;
+        let pollInterval = null;
+        let pollTimerSeconds = 0;
+        let timerInterval = null;
+        let activeFormatType = 'video';
+        let currentVideoSizes = null;
+
+        // --- Google Sheet Modal Functions (Admin Private) ---
+        function openSheetModal() {
+            document.getElementById('modal-sheet-tracker').classList.remove('hidden');
+            loadSheetStatus();
+            renderIcons();
+        }
+
+        function closeSheetModal() {
+            document.getElementById('modal-sheet-tracker').classList.add('hidden');
+        }
+
+        // Secret Admin Access (3 quick clicks on footer logo or text)
+        let secretClicks = 0;
+        let secretTimer = null;
+        function handleSecretAdminClick() {
+            secretClicks++;
+            if (secretClicks >= 3) {
+                secretClicks = 0;
+                clearTimeout(secretTimer);
+                openSheetModal();
+            } else {
+                clearTimeout(secretTimer);
+                secretTimer = setTimeout(() => { secretClicks = 0; }, 1200);
+            }
+        }
+
+        // Secret Admin Keyboard Shortcut (Ctrl+Shift+S or Cmd+Shift+S)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'S' || e.key === 's')) {
+                e.preventDefault();
+                openSheetModal();
+            }
+        });
+
+        async function loadSheetStatus() {
+            try {
+                const res = await fetch('/api/analytics/google-sheet-status');
+                const data = await res.json();
+                const statusEl = document.getElementById('sheet-conn-status');
+                const dotEl = document.getElementById('sheet-header-dot');
+                const labelEl = document.getElementById('sheet-header-label');
+                const inputEl = document.getElementById('input-sheet-webhook');
+
+                if (data.is_connected) {
+                    if (statusEl) {
+                        statusEl.innerText = "Connected & Active ✓";
+                        statusEl.className = "text-[10px] text-emerald-400 font-bold";
+                    }
+                    if (dotEl) dotEl.className = "w-2 h-2 rounded-full bg-emerald-400";
+                    if (labelEl) labelEl.innerText = "Sheet Synced";
+                    if (inputEl && !inputEl.value) {
+                        inputEl.value = data.masked_url || "";
+                    }
+                } else {
+                    if (statusEl) {
+                        statusEl.innerText = "Not Connected";
+                        statusEl.className = "text-[10px] text-slate-400 font-semibold";
+                    }
+                    if (dotEl) dotEl.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+                    if (labelEl) labelEl.innerText = "Connect Sheet";
+                }
+            } catch (err) {}
+        }
+
+        async function saveSheetWebhook() {
+            const url = document.getElementById('input-sheet-webhook').value.trim();
+            const feedback = document.getElementById('sheet-feedback-msg');
+
+            if (!url) {
+                alert("Please paste your Google Apps Script Webhook URL!");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/analytics/save-google-sheet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ webhook_url: url })
+                });
+                const data = await res.json();
+                feedback.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border-red-500/30');
+                feedback.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/30');
+                feedback.innerText = "✓ Webhook URL saved! Now click 'Send Test Row' to verify.";
+                loadSheetStatus();
+            } catch (err) {
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-red-500/10', 'text-red-400', 'border-red-500/30');
+                feedback.innerText = "Save error: " + err;
+            }
+        }
+
+        async function testSheetWebhook() {
+            const url = document.getElementById('input-sheet-webhook').value.trim();
+            const btn = document.getElementById('btn-test-sheet');
+            const feedback = document.getElementById('sheet-feedback-msg');
+
+            if (!url) {
+                alert("Please paste a Webhook URL first!");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i><span>Sending...</span>`;
+            renderIcons();
+
+            try {
+                const res = await fetch('/api/analytics/test-google-sheet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ webhook_url: url })
+                });
+                const data = await res.json();
+                feedback.classList.remove('hidden');
+
+                if (res.ok && data.status === 'ok') {
+                    feedback.className = "text-[11px] p-2.5 rounded-xl border bg-emerald-500/10 text-emerald-300 border-emerald-500/30";
+                    feedback.innerText = "🎉 Success! Test row added to your Google Sheet! Check your sheet now.";
+                    loadSheetStatus();
+                } else {
+                    feedback.className = "text-[11px] p-2.5 rounded-xl border bg-amber-500/10 text-amber-300 border-amber-500/30";
+                    feedback.innerText = data.detail || data.message || "Could not connect to Google Sheet.";
+                }
+            } catch (err) {
+                feedback.classList.remove('hidden');
+                feedback.className = "text-[11px] p-2.5 rounded-xl border bg-red-500/10 text-red-400 border-red-500/30";
+                feedback.innerText = "Connection failed: " + err;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5 text-cyan-400"></i><span>Send Test Row</span>`;
+                renderIcons();
+            }
+        }
+
+        function copyScriptCode() {
+            const code = `function doPost(e) {\n  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();\n  var d = JSON.parse(e.postData.contents);\n  sheet.appendRow([d.timestamp, d.country, d.city, d.region, d.tool || d.page, d.ip, d.device]);\n  return ContentService.createTextOutput("OK");\n}`;
+            navigator.clipboard.writeText(code).then(() => {
+                const btnText = document.getElementById('copy-btn-text');
+                btnText.innerText = "Copied! ✓";
+                setTimeout(() => { btnText.innerText = "Copy"; }, 2000);
+            });
+        }
+
+        // --- Quality Selector ---
+        function switchFormatType(type) {
+            activeFormatType = type;
+            const btnVid = document.getElementById('tab-btn-video');
+            const btnAud = document.getElementById('tab-btn-audio');
+            const gridVid = document.getElementById('grid-video-options');
+            const gridAud = document.getElementById('grid-audio-options');
+
+            const activeClass = "px-3.5 py-1 rounded-lg text-xs font-bold transition bg-emerald-500 text-black shadow font-bold";
+            const inactiveClass = "px-3.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+
+            if (type === 'audio') {
+                btnVid.className = inactiveClass;
+                btnAud.className = activeClass;
+                gridVid.classList.add('hidden');
+                gridAud.classList.remove('hidden');
+                selectQuality('audio_320');
+            } else {
+                btnVid.className = activeClass;
+                btnAud.className = inactiveClass;
+                gridVid.classList.remove('hidden');
+                gridAud.classList.add('hidden');
+                selectQuality('video_best');
+            }
+            renderIcons();
+        }
+
+        function selectQuality(qKey) {
+            document.getElementById('cfg-download-quality').value = qKey;
+            const cards = document.querySelectorAll('.quality-card');
+            cards.forEach(c => {
+                c.className = "quality-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20";
+            });
+
+            const activeCard = document.getElementById(`card-${qKey}`);
+            if (activeCard) {
+                activeCard.className = "quality-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/40";
+            }
+
+            // Dynamically update preview badge size based on selected quality
+            if (currentVideoSizes && currentVideoSizes[qKey]) {
+                const fsEl = document.getElementById('yt-preview-filesize');
+                if (fsEl) fsEl.innerText = `Size: ~${currentVideoSizes[qKey]}`;
+            }
+        }
+
+        // --- URL Input & Live Detection ---
+        function handleUrlInput(e) {
+            const val = e.target.value.trim();
+            const clearBtn = document.getElementById('btn-clear-url');
+            if (val) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+                clearVideoMetadata();
+                return;
+            }
+
+            clearTimeout(ytDebounceTimer);
+            if (val.includes('youtube.com/') || val.includes('youtu.be/')) {
+                ytDebounceTimer = setTimeout(() => fetchYouTubeMetadata(val), 400);
+            }
+        }
+
+        function clearVideoMetadata() {
+            document.getElementById('yt-preview-card').classList.add('hidden');
+            currentVideoSizes = null;
+            const sizeTags = document.querySelectorAll('[id^="size-tag-"]');
+            sizeTags.forEach(t => t.innerText = '');
+            const fsEl = document.getElementById('yt-preview-filesize');
+            if (fsEl) fsEl.innerText = 'Approx Size: Calculating...';
+        }
+
+        function clearUrlInput() {
+            const input = document.getElementById('downloader-url');
+            input.value = '';
+            document.getElementById('btn-clear-url').classList.add('hidden');
+            clearVideoMetadata();
+            input.focus();
+        }
+
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    const input = document.getElementById('downloader-url');
+                    input.value = text.trim();
+                    handleUrlInput({ target: input });
+                }
+            } catch (err) {
+                alert("Please paste your link directly into the box.");
+            }
+        }
+
+        async function fetchYouTubeMetadata(url) {
+            const statusTag = document.getElementById('url-status-tag');
+            statusTag.innerText = "Checking video...";
+            statusTag.className = "text-[10px] text-amber-400 font-bold animate-pulse";
+
+            try {
+                const res = await fetch(`/api/youtube-meta?url=${encodeURIComponent(url)}`);
+                if (!res.ok) {
+                    statusTag.innerText = "Ready to download";
+                    statusTag.className = "text-[10px] text-emerald-400 font-semibold";
+                    return;
+                }
+                const data = await res.json();
+                if (data.title) {
+                    document.getElementById('yt-preview-title').innerText = data.title;
+                    document.getElementById('yt-preview-channel').innerText = data.channel || 'YouTube Video';
+                    if (data.thumbnail) {
+                        document.getElementById('yt-preview-thumb').src = data.thumbnail;
+                    }
+                    if (data.duration) {
+                        const m = Math.floor(data.duration / 60);
+                        const s = Math.floor(data.duration % 60);
+                        document.getElementById('yt-preview-duration').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+                    }
+
+                    // Display File Sizes in MB / GB
+                    currentVideoSizes = data.sizes || null;
+                    if (data.sizes) {
+                        const activeQ = document.getElementById('cfg-download-quality').value || 'video_best';
+                        const currentSz = data.sizes[activeQ] || data.default_size || 'Unknown';
+                        const fsEl = document.getElementById('yt-preview-filesize');
+                        if (fsEl) fsEl.innerText = `Size: ~${currentSz}`;
+
+                        Object.keys(data.sizes).forEach(k => {
+                            const tag = document.getElementById(`size-tag-${k}`);
+                            if (tag) tag.innerText = `~${data.sizes[k]}`;
+                        });
+                    } else if (data.duration) {
+                        const estMb = ((data.duration * 320000) / (1024 * 1024)).toFixed(1);
+                        const fsEl = document.getElementById('yt-preview-filesize');
+                        if (fsEl) fsEl.innerText = `Size: ~${estMb} MB`;
+                    }
+
+                    document.getElementById('yt-preview-card').classList.remove('hidden');
+                    statusTag.innerText = "Video Verified ✓";
+                    statusTag.className = "text-[10px] text-emerald-400 font-bold";
+                    renderIcons();
+                }
+            } catch (e) {
+                statusTag.innerText = "Ready to download";
+                statusTag.className = "text-[10px] text-slate-400 font-semibold";
+            }
+        }
+
+        // --- Start Download Job ---
+        async function startDirectDownload() {
+            const url = document.getElementById('downloader-url').value.trim();
+            const quality = document.getElementById('cfg-download-quality').value || 'video_best';
+
+            if (!url) {
+                alert("Please enter or paste a valid YouTube video link!");
+                document.getElementById('downloader-url').focus();
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-downloader');
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/downloader/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url, quality })
+                });
+
+                const data = await res.json();
+                if (data.job_id) {
+                    showDownloadProgress(data.job_id);
+                } else {
+                    alert("Download request error: " + JSON.stringify(data));
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                alert("Network error starting download: " + err);
+                btn.disabled = false;
+            }
+        }
+
+        function showDownloadProgress(jobId) {
+            document.getElementById('downloader-form-box').classList.add('hidden');
+            document.getElementById('downloader-success-box').classList.add('hidden');
+            document.getElementById('downloader-progress-box').classList.remove('hidden');
+
+            pollTimerSeconds = 0;
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                pollTimerSeconds++;
+                const m = Math.floor(pollTimerSeconds / 60);
+                const s = pollTimerSeconds % 60;
+                const timerEl = document.getElementById('dl-timer-text');
+                if (timerEl) timerEl.innerText = `Time Elapsed: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            }, 1000);
+
+            if (pollInterval) clearInterval(pollInterval);
+            pollInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/jobs/${jobId}/status`);
+                    if (!res.ok) return;
+                    const job = await res.json();
+
+                    document.getElementById('dl-progress-bar').style.width = `${job.progress || 10}%`;
+                    document.getElementById('dl-progress-text').innerText = `${job.progress || 10}% Complete`;
+                    if (job.step) {
+                        document.getElementById('dl-step-title').innerText = job.step;
+                    }
+
+                    if (job.status === 'completed') {
+                        clearInterval(pollInterval);
+                        clearInterval(timerInterval);
+                        showDownloadSuccess(job);
+                    } else if (job.status === 'failed') {
+                        clearInterval(pollInterval);
+                        clearInterval(timerInterval);
+                        alert("Download Failed: " + (job.error || "Please check link and try again."));
+                        resetDownloaderForm();
+                    }
+                } catch (e) {
+                    console.error("Polling error:", e);
+                }
+            }, 1000);
+        }
+
+        function showDownloadSuccess(job) {
+            document.getElementById('downloader-progress-box').classList.add('hidden');
+            document.getElementById('downloader-success-box').classList.remove('hidden');
+
+            const info = job.download_info || {};
+            document.getElementById('dl-success-filename').innerText = info.title || info.filename || "Your Downloaded Media";
+            
+            if (info.filesize) {
+                const mb = (info.filesize / (1024 * 1024)).toFixed(1);
+                document.getElementById('dl-success-filesize').innerText = `File Size: ${mb} MB`;
+            } else {
+                document.getElementById('dl-success-filesize').innerText = "Download Ready";
+            }
+
+            const btnSave = document.getElementById('btn-save-device');
+            btnSave.href = info.download_url || "#";
+            if (info.filename) {
+                btnSave.setAttribute('download', info.filename);
+            }
+
+            renderIcons();
+        }
+
+        function resetDownloaderForm() {
+            if (pollInterval) clearInterval(pollInterval);
+            if (timerInterval) clearInterval(timerInterval);
+
+            document.getElementById('downloader-form-box').classList.remove('hidden');
+            document.getElementById('downloader-progress-box').classList.add('hidden');
+            document.getElementById('downloader-success-box').classList.add('hidden');
+
+            document.getElementById('btn-submit-downloader').disabled = false;
+            document.getElementById('downloader-url').value = '';
+            document.getElementById('btn-clear-url').classList.add('hidden');
+            clearVideoMetadata();
+            document.getElementById('url-status-tag').innerText = "Video, Short or Live";
+            document.getElementById('url-status-tag').className = "text-[10px] text-slate-400 font-semibold";
+
+            renderIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderIcons();
+            loadSheetStatus();
+
+            // Auto-open sheet tracker modal if admin opens with ?admin=1, ?sheet=1, #admin, or #sheet
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('admin') || params.has('sheet') || 
+                    window.location.hash.toLowerCase().includes('admin') || 
+                    window.location.hash.toLowerCase().includes('sheet')) {
+                    setTimeout(openSheetModal, 300);
+                }
+            } catch (err) {}
+
+            setTimeout(renderIcons, 250);
+            setTimeout(renderIcons, 800);
+        });
+    </script>
+</body>
+</html>

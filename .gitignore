@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/clips/*
+!storage/clips/.gitkeep
+storage/downloads/*
+!storage/downloads/.gitkeep
+storage/temp/*
+!storage/temp/.gitkeep
+storage/visitors_log.csv
+storage/config.json

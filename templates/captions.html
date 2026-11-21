@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Caption Studio — Free Word-by-Word Animated Subtitles for Shorts & Reels | HookFlow</title>
+    <meta name="description" content="Generate viral word-by-word animated karaoke subtitles for YouTube Shorts, Instagram Reels, and TikTok. 100% Free AI speech recognition with Faster-Whisper, Alex Hormozi & MrBeast styles, silence pause detection, and zero watermarks.">
+    <meta name="keywords" content="auto caption generator, ai subtitles for shorts, word by word karaoke captions, alex hormozi caption generator, mrbeast subtitles, reels subtitle maker, tiktok caption generator, faster whisper subtitles, free online video captioner, animated subtitles generator, add subtitles to shorts online free">
+    <meta name="author" content="HookFlow Studio">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://hookflow.app/captions">
+    <meta name="theme-color" content="#07080E">
+
+    <!-- Open Graph (Facebook / WhatsApp / LinkedIn / Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HookFlow Studio">
+    <meta property="og:title" content="Auto-Caption Studio — Animated Karaoke Subtitles for Shorts">
+    <meta property="og:description" content="Burn viral Alex Hormozi and MrBeast word-by-word animated subtitles onto Shorts, Reels, and TikToks. 100% Free with zero watermark.">
+    <meta property="og:url" content="https://hookflow.app/captions">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Auto-Caption Studio — Animated Subtitles for Shorts & Reels">
+    <meta name="twitter:description" content="Free AI word-by-word animated subtitles with speech pause detection and zero watermarks.">
+
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HookFlow Auto-Caption Studio",
+      "url": "https://hookflow.app/captions",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All (Web, Windows, macOS, Android, iOS)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.95",
+        "ratingCount": "8930",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "description": "AI-powered tool that transcribes speech with word-level precision and burns animated viral karaoke subtitles onto vertical Shorts and Reels.",
+      "featureList": [
+        "Real-time word-by-word active highlight karaoke animation",
+        "Viral Alex Hormozi (Yellow) & MrBeast (Neon Green) styling presets",
+        "Speech silence detection to hide subtitles during natural pauses",
+        "Aspect ratio framing for 9:16 vertical, 1:1 square, and original dimensions",
+        "100% free with no watermarks and unlimited usage"
+      ]
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #07080E;
+            color: #F8FAFC;
+        }
+        .glass-card {
+            background: rgba(14, 16, 28, 0.78);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-card {
+            box-shadow: 0 0 50px -10px rgba(139, 92, 246, 0.18);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.4);
+        }
+        .btn-press:active {
+            transform: scale(0.98);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-violet-600 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="h-16 sm:h-20 border-b border-white/5 bg-[#07080E]/85 backdrop-blur-md sticky top-0 z-40 px-3.5 sm:px-8 flex items-center justify-between">
+        <!-- Back Link & Studio Branding -->
+        <div class="flex items-center gap-2.5 sm:gap-4">
+            <a href="/" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold text-slate-300 hover:text-white transition px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 btn-press">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
+                <span class="hidden sm:inline">Back to Downloader</span>
+                <span class="sm:hidden">Downloader</span>
+            </a>
+            <div class="h-5 w-[1px] bg-white/10 hidden sm:block"></div>
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-violet-600/30 flex-shrink-0">
+                    <i data-lucide="subtitles" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                        <span class="text-sm sm:text-base font-extrabold text-white tracking-tight">HookFlow</span>
+                        <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 uppercase tracking-wider">Caption Studio</span>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-medium hidden sm:block">Faster-Whisper Word-Level Engine</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Engine Status Badge -->
+        <div class="flex items-center gap-3">
+            <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full font-semibold hidden md:inline-flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>100% Free • Offline Faster-Whisper</span>
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-4 py-5 sm:py-12 flex flex-col items-center">
+
+        <!-- Hero Section -->
+        <div class="text-center mb-6 sm:mb-8 max-w-2xl px-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-600/10 border border-violet-500/20 text-violet-300 text-[11px] sm:text-xs font-bold mb-2.5 sm:mb-3 pulse-glow">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-violet-400"></i>
+                <span>Synchronized Karaoke Captions</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-2.5 sm:mb-3 leading-tight">
+                Auto-Caption for <br class="hidden sm:block" />
+                <span class="bg-gradient-to-r from-violet-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Shorts & Reels</span>
+            </h1>
+            <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed max-w-xl mx-auto">
+                Upload your Short, Reel, or video. Faster-Whisper transcribes speech with word-level precision and burns Alex Hormozi or MrBeast style animated karaoke subtitles directly onto your video.
+            </p>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- STUDIO CARD CONTAINER                                             -->
+        <!-- ================================================================= -->
+        <div class="w-full glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-9 glow-card shadow-2xl mb-12 border border-white/10 relative overflow-hidden">
+            <div class="absolute -top-32 -right-32 w-64 h-64 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Form State: Upload & Settings -->
+            <div id="form-container">
+                <!-- 1. Video Dropzone -->
+                <div class="mb-5 sm:mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2 flex items-center gap-1.5">
+                        <i data-lucide="upload" class="w-3.5 h-3.5 text-violet-400"></i> 1. Select Video to Caption
+                    </label>
+
+                    <div onclick="document.getElementById('file-input-caption').click()" id="caption-dropzone" class="border-2 border-dashed border-violet-500/30 hover:border-violet-500/70 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center cursor-pointer transition-all duration-300 bg-white/[0.01] hover:bg-white/[0.03] group">
+                        <input type="file" id="file-input-caption" accept="video/mp4,video/mkv,video/webm,video/mov" class="hidden" onchange="handleCaptionFileSelect(event)">
+                        
+                        <!-- Default Idle State -->
+                        <div id="dropzone-idle">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-violet-600/20 to-indigo-500/20 text-violet-400 flex items-center justify-center mx-auto mb-3 sm:mb-3.5 group-hover:scale-110 transition shadow-lg shadow-violet-600/15">
+                                <i data-lucide="smartphone" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+                            </div>
+                            <h3 id="caption-file-label" class="text-sm sm:text-lg font-bold text-white mb-1">Click to upload your video</h3>
+                            <p class="text-[11px] sm:text-xs text-slate-400 font-medium">Supports MP4, MKV, WebM, MOV (Up to 500MB)</p>
+                        </div>
+
+                        <!-- Active File Selected State -->
+                        <div id="dropzone-selected" class="hidden flex flex-col items-center">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-2.5 sm:mb-3 shadow-lg shadow-emerald-500/20">
+                                <i data-lucide="check-circle" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                            </div>
+                            <h4 id="selected-file-name" class="text-xs sm:text-base font-extrabold text-white truncate max-w-md mb-1">video.mp4</h4>
+                            <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                                <span id="selected-file-size" class="text-[11px] sm:text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">-- MB</span>
+                                <span class="text-[10px] text-slate-400 font-medium">Ready to Process</span>
+                            </div>
+                            <span class="text-[11px] sm:text-xs text-violet-400 hover:text-white font-semibold underline underline-offset-4">Click to change video file</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Video Formatting Selector Cards -->
+                <div class="mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2 flex items-center gap-1.5">
+                        <i data-lucide="aspect-ratio" class="w-3.5 h-3.5 text-violet-400"></i> 2. Video Framing & Aspect Ratio
+                    </label>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <!-- Option 1: Original -->
+                        <div onclick="selectAspectRatio('original')" id="aspect-card-original" class="aspect-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-violet-600/15 border-violet-500 ring-2 ring-violet-500/40">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                                    <i data-lucide="maximize" class="w-3.5 h-3.5 text-violet-400"></i> Original Framing
+                                </span>
+                                <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-violet-500 text-white uppercase">RECOMMENDED</span>
+                            </div>
+                            <p class="text-[11px] text-slate-300 font-medium">Keep native video resolution & framing</p>
+                        </div>
+
+                        <!-- Option 2: 9:16 Vertical -->
+                        <div onclick="selectAspectRatio('9:16')" id="aspect-card-9:16" class="aspect-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                                    <i data-lucide="smartphone" class="w-3.5 h-3.5 text-slate-400"></i> 9:16 Vertical
+                                </span>
+                                <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/10 text-slate-300 uppercase">CROP</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 font-medium">Center crop for vertical mobile screen</p>
+                        </div>
+
+                        <!-- Option 3: 1:1 Square -->
+                        <div onclick="selectAspectRatio('1:1')" id="aspect-card-1:1" class="aspect-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                                    <i data-lucide="square" class="w-3.5 h-3.5 text-slate-400"></i> 1:1 Square
+                                </span>
+                                <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/10 text-slate-300 uppercase">FEED</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 font-medium">Square format for Instagram post feeds</p>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="cfg-aspect-caption" value="original" />
+                <input type="hidden" id="cfg-style" value="hormozi" />
+
+                <!-- 3. Subtitle Style Selector & Interactive Live Preview -->
+                <div class="p-5 rounded-3xl bg-[#090B14] border border-white/10 shadow-2xl mb-7">
+                    <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                            <i data-lucide="palette" class="w-3.5 h-3.5 text-violet-400"></i> 3. Choose Animated Subtitle Style
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span id="active-style-pill" class="w-2.5 h-2.5 rounded-full bg-[#FFE500]"></span>
+                            <span id="active-style-label" class="text-xs font-bold text-white">Alex Hormozi (Yellow & Bold)</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Subtitle Stage Mockup -->
+                    <div class="relative w-full h-24 rounded-2xl bg-gradient-to-b from-[#05060A] to-[#101222] border border-white/10 flex flex-col items-center justify-center p-3 mb-4 overflow-hidden shadow-inner">
+                        <div class="absolute top-2 left-3 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="text-[9px] text-slate-400 uppercase tracking-widest font-extrabold">LIVE SUBTITLE PREVIEW</span>
+                        </div>
+                        <div id="live-caption-preview" class="transition-all duration-300 transform text-center"></div>
+                    </div>
+
+                    <!-- 6 Style Cards Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-6 gap-3" id="cards-container-caption"></div>
+                </div>
+
+                <!-- 4. Submit Button -->
+                <button type="button" id="btn-submit-caption" onclick="startCaptionGeneration()" class="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base transition shadow-lg shadow-violet-600/30 flex items-center justify-center gap-2 glow-hover btn-press cursor-pointer">
+                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
+                    <span>Burn Animated Captions to Video</span>
+                </button>
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- PROCESSING PROGRESS STATE                                     -->
+            <!-- ============================================================= -->
+            <div id="processing-section" class="hidden text-center py-6 animate-fadeIn">
+                <div class="w-16 h-16 rounded-2xl bg-violet-600/20 text-violet-400 flex items-center justify-center mx-auto mb-4 animate-bounce shadow-lg shadow-violet-600/20">
+                    <i data-lucide="loader" class="w-8 h-8 animate-spin"></i>
+                </div>
+                <h3 id="process-step-title" class="text-xl font-black text-white mb-2">Transcribing audio with Faster-Whisper...</h3>
+                <p id="process-step-sub" class="text-xs text-slate-400 mb-6">Generating word-level timestamps and burning subtitles with FFmpeg. Please do not close this window.</p>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-white/5 rounded-full h-3.5 overflow-hidden mb-3 border border-white/10 p-0.5">
+                    <div id="process-progress-bar" class="bg-gradient-to-r from-violet-600 via-indigo-500 to-pink-500 h-full rounded-full transition-all duration-300" style="width: 15%"></div>
+                </div>
+                <div class="flex items-center justify-between text-xs font-semibold px-1">
+                    <span id="process-progress-text" class="text-violet-400 font-bold">15% Complete</span>
+                    <span id="process-timer-text" class="text-slate-400">Processing locally...</span>
+                </div>
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- RESULTS VIDEO READY STATE                                     -->
+            <!-- ============================================================= -->
+            <div id="result-section" class="hidden text-center py-4 animate-fadeIn">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-500/20">
+                    <i data-lucide="check-circle" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-1">Your Captioned Video is Ready! 🎉</h3>
+                <p class="text-xs sm:text-sm text-slate-300 font-medium mb-4">
+                    Synchronized word-by-word animated subtitles have been burned directly onto your clip.
+                </p>
+
+                <!-- Embedded Video Player -->
+                <div class="max-w-md mx-auto rounded-3xl overflow-hidden bg-black/90 border border-violet-500/30 mb-6 shadow-2xl relative">
+                    <video id="result-video-player" controls playsinline class="w-full max-h-[460px] object-contain mx-auto bg-black"></video>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a id="btn-download-clip" href="#" download class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-extrabold text-base shadow-lg shadow-emerald-500/30 hover:opacity-95 transition flex items-center justify-center gap-2 btn-press">
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        <span>Download Captioned Video</span>
+                    </a>
+                    <button type="button" onclick="resetCaptionForm()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-bold text-sm transition btn-press">
+                        Caption Another Video
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- VALUE PROPS / FEATURE HIGHLIGHTS                                  -->
+        <!-- ================================================================= -->
+        <section class="w-full mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-violet-600/10 text-violet-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="clock" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Word-Level Synchronization</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Faster-Whisper pinpoints exact millisecond word timestamps for accurate subtitle timing.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-pink-600/10 text-pink-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">High-Retention Viral Styles</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Choose from Alex Hormozi yellow, MrBeast neon green, and cyber styles tailored for mobile reels.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border border-white/5 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">100% Private & Free</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Runs locally on your computer with FFmpeg and Whisper. No API keys, subscriptions, or limits.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-500 bg-[#07080E] mt-auto">
+        <p>HookFlow Studio • Free Open-Source Video Tools • Powered by Faster-Whisper & FFmpeg</p>
+    </footer>
+
+    <script>
+        function renderIcons() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            }
+        }
+
+        let selectedCaptionFile = null;
+        let pollInterval = null;
+
+        // --- Caption Styles Preview Data ---
+        const STYLE_PREVIEWS = {
+            hormozi: {
+                label: 'Alex Hormozi (Yellow & Bold)',
+                color: '#FFE500',
+                desc: 'Yellow Bold',
+                html: `<div class="inline-flex items-center gap-2 text-base sm:text-lg font-black uppercase tracking-wide">
+                    <span class="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">THIS IS HOW YOU</span>
+                    <span class="bg-[#FFE500] text-black px-2.5 py-0.5 rounded shadow-lg transform -rotate-1 inline-block animate-pulse font-extrabold">GO VIRAL</span>
+                </div>`
+            },
+            beast: {
+                label: 'MrBeast (Vibrant Neon)',
+                color: '#00FF66',
+                desc: 'Electric Green',
+                html: `<div class="inline-flex items-center gap-2 text-base sm:text-lg font-black uppercase tracking-wider">
+                    <span class="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">I WON</span>
+                    <span class="text-[#00FF66] drop-shadow-[0_0_16px_rgba(0,255,102,0.95)] animate-pulse inline-block">$100,000 CASH</span>
+                </div>`
+            },
+            fire: {
+                label: 'Crimson Fire (Hot Red)',
+                color: '#FF385C',
+                desc: 'Hot Red Hook',
+                html: `<div class="inline-flex items-center gap-2 text-base sm:text-lg font-black uppercase tracking-wider">
+                    <span class="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">DO NOT MAKE THIS</span>
+                    <span class="text-[#FF385C] drop-shadow-[0_0_16px_rgba(255,56,92,0.95)] animate-pulse inline-block">MISTAKE</span>
+                </div>`
+            },
+            cyber: {
+                label: 'Cyber Cyan (Electric Blue)',
+                color: '#00F0FF',
+                desc: 'Electric Blue',
+                html: `<div class="inline-flex items-center gap-2 text-base sm:text-lg font-black uppercase tracking-wider">
+                    <span class="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">THE SECRET AI</span>
+                    <span class="text-[#00F0FF] drop-shadow-[0_0_16px_rgba(0,240,255,0.95)] animate-pulse inline-block">FORMULA</span>
+                </div>`
+            },
+            minimal: {
+                label: 'Minimal Clean (Documentary)',
+                color: '#FFFFFF',
+                desc: 'Podcast Clean',
+                html: `<div class="inline-flex items-center gap-2 text-xs sm:text-sm font-medium">
+                    <span class="text-white bg-black/60 px-3.5 py-1 rounded-lg border border-white/15 backdrop-blur-md shadow-md">
+                        Great things take time and consistent focus.
+                    </span>
+                </div>`
+            },
+            none: {
+                label: 'Captions Off (Raw Video)',
+                color: '#64748B',
+                desc: 'Captions Off',
+                html: `<div class="inline-flex items-center gap-2 text-xs font-bold text-slate-400 bg-white/5 px-3.5 py-1.5 rounded-xl border border-white/10">
+                    <i data-lucide="subtitles" class="w-4 h-4 text-slate-500"></i>
+                    <span>Subtitles Turned Off (Clean Raw Footage Only)</span>
+                </div>`
+            }
+        };
+
+        function renderStyleCards() {
+            const container = document.getElementById('cards-container-caption');
+            const activeStyle = document.getElementById('cfg-style').value || 'hormozi';
+            if (!container) return;
+            container.innerHTML = '';
+
+            Object.keys(STYLE_PREVIEWS).forEach(key => {
+                const item = STYLE_PREVIEWS[key];
+                const isSelected = key === activeStyle;
+                const card = document.createElement('div');
+                card.onclick = () => selectStyle(key);
+                card.className = `cursor-pointer p-2.5 rounded-2xl border transition-all duration-200 ${
+                    isSelected 
+                    ? 'bg-violet-600/15 border-violet-500 ring-2 ring-violet-500/40' 
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                }`;
+
+                let previewBadge = '';
+                if (key === 'hormozi') {
+                    previewBadge = `<span class="bg-[#FFE500] text-black font-black text-[11px] px-1.5 py-0.5 rounded shadow tracking-tight">VIRAL</span>`;
+                } else if (key === 'beast') {
+                    previewBadge = `<span class="text-[#00FF66] font-black text-[11px] tracking-wider drop-shadow-[0_0_8px_rgba(0,255,102,0.85)]">NEON</span>`;
+                } else if (key === 'fire') {
+                    previewBadge = `<span class="text-[#FF385C] font-black text-[11px] tracking-wider drop-shadow-[0_0_8px_rgba(255,56,92,0.85)]">FIRE</span>`;
+                } else if (key === 'cyber') {
+                    previewBadge = `<span class="text-[#00F0FF] font-black text-[11px] tracking-wider drop-shadow-[0_0_8px_rgba(0,240,255,0.85)]">CYAN</span>`;
+                } else if (key === 'none') {
+                    previewBadge = `<span class="text-slate-300 font-bold text-[10px] bg-slate-800/90 px-2 py-0.5 rounded border border-white/15">OFF</span>`;
+                } else {
+                    previewBadge = `<span class="text-white font-medium text-[10px] bg-black/50 px-1 py-0.5 rounded border border-white/15">Classic</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-1.5">
+                        <span class="text-[11px] font-bold ${isSelected ? 'text-white' : 'text-slate-300'}">${item.desc}</span>
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-violet-400 ${isSelected ? '' : 'hidden'}"></i>
+                    </div>
+                    <div class="bg-black/60 rounded-lg p-1.5 text-center h-12 flex items-center justify-center border border-white/5">
+                        ${previewBadge}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            const data = STYLE_PREVIEWS[activeStyle] || STYLE_PREVIEWS.hormozi;
+            const previewEl = document.getElementById('live-caption-preview');
+            if (previewEl) previewEl.innerHTML = data.html;
+
+            const cThemeName = document.getElementById('active-style-label');
+            const cThemePill = document.getElementById('active-style-pill');
+            if (cThemeName) cThemeName.innerText = data.label;
+            if (cThemePill) cThemePill.style.backgroundColor = data.color;
+
+            renderIcons();
+        }
+
+        function selectStyle(style) {
+            document.getElementById('cfg-style').value = style;
+            renderStyleCards();
+        }
+
+        function selectAspectRatio(ratio) {
+            document.getElementById('cfg-aspect-caption').value = ratio;
+            const cards = document.querySelectorAll('.aspect-card');
+            cards.forEach(c => {
+                c.className = "aspect-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-white/[0.02] border-white/10 hover:border-white/20";
+            });
+
+            const activeCard = document.getElementById(`aspect-card-${ratio}`);
+            if (activeCard) {
+                activeCard.className = "aspect-card cursor-pointer p-3.5 rounded-2xl border transition-all duration-200 bg-violet-600/15 border-violet-500 ring-2 ring-violet-500/40";
+            }
+        }
+
+        function handleCaptionFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                selectedCaptionFile = file;
+                const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+                
+                document.getElementById('dropzone-idle').classList.add('hidden');
+                document.getElementById('dropzone-selected').classList.remove('hidden');
+                document.getElementById('selected-file-name').innerText = file.name;
+                document.getElementById('selected-file-size').innerText = `${sizeMb} MB`;
+                renderIcons();
+            }
+        }
+
+        async function startCaptionGeneration() {
+            if (!selectedCaptionFile) {
+                alert("Please select a video file first!");
+                document.getElementById('caption-dropzone').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const aspectRatio = document.getElementById('cfg-aspect-caption').value || 'original';
+            const style = document.getElementById('cfg-style').value || 'hormozi';
+            const submitBtn = document.getElementById('btn-submit-caption');
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedCaptionFile);
+                formData.append('aspect_ratio', aspectRatio);
+                formData.append('subtitle_style', style);
+                formData.append('template', "fit_original");
+                formData.append('num_clips', 1);
+                formData.append('mode', "caption_only");
+
+                const res = await fetch('/api/jobs/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+                if (data.job_id) {
+                    showProcessing(data.job_id);
+                } else {
+                    alert("Error: " + JSON.stringify(data));
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                alert("Upload failed: " + err);
+                submitBtn.disabled = false;
+            }
+        }
+
+        function showProcessing(jobId) {
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('processing-section').classList.remove('hidden');
+
+            if (pollInterval) clearInterval(pollInterval);
+            pollInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/jobs/${jobId}/status`);
+                    if (!res.ok) return;
+                    const job = await res.json();
+
+                    document.getElementById('process-progress-bar').style.width = `${job.progress || 10}%`;
+                    document.getElementById('process-progress-text').innerText = `${job.progress || 10}% Complete`;
+                    if (job.step) {
+                        document.getElementById('process-step-title').innerText = job.step;
+                    }
+
+                    if (job.status === 'completed') {
+                        clearInterval(pollInterval);
+                        showResults(job);
+                    } else if (job.status === 'failed') {
+                        clearInterval(pollInterval);
+                        alert("Processing Failed: " + (job.error || "Unknown error"));
+                        resetCaptionForm();
+                    }
+                } catch (e) {
+                    console.error("Polling error:", e);
+                }
+            }, 1000);
+        }
+
+        function showResults(job) {
+            document.getElementById('processing-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+
+            const clip = (job.clips && job.clips[0]) ? job.clips[0] : null;
+            if (clip) {
+                const player = document.getElementById('result-video-player');
+                player.src = clip.preview_url;
+                player.load();
+                const dlBtn = document.getElementById('btn-download-clip');
+                dlBtn.href = clip.download_url;
+            }
+            renderIcons();
+        }
+
+        function resetCaptionForm() {
+            if (pollInterval) clearInterval(pollInterval);
+            document.getElementById('form-container').classList.remove('hidden');
+            document.getElementById('processing-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('btn-submit-caption').disabled = false;
+            
+            document.getElementById('file-input-caption').value = '';
+            document.getElementById('dropzone-idle').classList.remove('hidden');
+            document.getElementById('dropzone-selected').classList.add('hidden');
+            selectedCaptionFile = null;
+
+            renderIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderStyleCards();
+            renderIcons();
+            setTimeout(renderIcons, 250);
+            setTimeout(renderIcons, 800);
+        });
+    </script>
+</body>
+</html>

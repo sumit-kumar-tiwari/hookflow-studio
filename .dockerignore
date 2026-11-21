@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+storage/clips/*.mp4
+storage/uploads/*.mp4
+storage/downloads/*
+storage/temp/*
