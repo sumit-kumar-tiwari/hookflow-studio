@@ -27,8 +27,7 @@ def get_base_ydl_opts(output_dir: str) -> dict:
         'nocheckcertificate': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['android', 'ios', 'web'],
-                'player_skip': ['webpage', 'configs'],
+                'player_client': ['tv_samsung', 'android', 'ios', 'web'],
             }
         },
         'http_headers': {

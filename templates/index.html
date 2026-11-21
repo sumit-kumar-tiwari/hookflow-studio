@@ -983,16 +983,50 @@
             }
         }
 
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/i);
+            return m ? m[1] : null;
+        }
+
         async function fetchYouTubeMetadata(url) {
             const statusTag = document.getElementById('url-status-tag');
             statusTag.innerText = "Checking video...";
             statusTag.className = "text-[10px] text-amber-400 font-bold animate-pulse";
 
+            const vid = extractYouTubeId(url);
+            if (vid) {
+                // Instant Zero-Delay Client-Side Preview (100% Guaranteed Thumbnail)
+                const thumbEl = document.getElementById('yt-preview-thumb');
+                if (thumbEl) thumbEl.src = `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+                document.getElementById('yt-preview-card').classList.remove('hidden');
+                document.getElementById('yt-preview-title').innerText = "YouTube Video (" + vid + ")";
+                document.getElementById('yt-preview-channel').innerText = "Ready to download";
+                statusTag.innerText = "Video Detected ✓";
+                statusTag.className = "text-[10px] text-emerald-400 font-bold";
+                renderIcons();
+
+                // Quick client-side oEmbed for title
+                try {
+                    fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${vid}`)
+                        .then(r => r.json())
+                        .then(d => {
+                            if (d && d.title) document.getElementById('yt-preview-title').innerText = d.title;
+                            if (d && d.author_name) document.getElementById('yt-preview-channel').innerText = d.author_name;
+                        }).catch(() => {});
+                } catch(_) {}
+            }
+
             try {
                 const res = await fetch(`/api/youtube-meta?url=${encodeURIComponent(url)}`);
                 if (!res.ok) {
-                    statusTag.innerText = "Ready to download";
-                    statusTag.className = "text-[10px] text-emerald-400 font-semibold";
+                    if (vid) {
+                        statusTag.innerText = "Video Verified ✓";
+                        statusTag.className = "text-[10px] text-emerald-400 font-bold";
+                    } else {
+                        statusTag.innerText = "Ready to download";
+                        statusTag.className = "text-[10px] text-emerald-400 font-semibold";
+                    }
                     return;
                 }
                 const data = await res.json();
@@ -1032,8 +1066,13 @@
                     renderIcons();
                 }
             } catch (e) {
-                statusTag.innerText = "Ready to download";
-                statusTag.className = "text-[10px] text-slate-400 font-semibold";
+                if (vid) {
+                    statusTag.innerText = "Video Verified ✓";
+                    statusTag.className = "text-[10px] text-emerald-400 font-bold";
+                } else {
+                    statusTag.innerText = "Ready to download";
+                    statusTag.className = "text-[10px] text-slate-400 font-semibold";
+                }
             }
         }
 

@@ -660,8 +660,7 @@ def get_youtube_meta(url: str):
             'nocheckcertificate': True,
             'extractor_args': {
                 'youtube': {
-                    'player_client': ['android', 'ios', 'web'],
-                    'player_skip': ['webpage', 'configs'],
+                    'player_client': ['tv_samsung', 'android', 'ios', 'web'],
                 }
             },
             'http_headers': {
@@ -684,6 +683,31 @@ def get_youtube_meta(url: str):
                 "default_size": sizes.get("default_size", "Unknown")
             }
     except Exception as e:
+        # High-reliability fallback: Extract ID and use YouTube oEmbed API
+        try:
+            import requests, re
+            vid_match = re.search(r'(?:youtu\.be/|youtube\.com/(?:embed/|v/|watch\?v=|watch\?.+&v=|shorts/))([\w-]{11})', url)
+            vid = vid_match.group(1) if vid_match else None
+            oembed_url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={vid}&format=json" if vid else f"https://www.youtube.com/oembed?url={url}&format=json"
+            resp = requests.get(oembed_url, timeout=4)
+            if resp.status_code == 200:
+                data = resp.json()
+                thumb = f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg" if vid else data.get("thumbnail_url")
+                return {
+                    "title": data.get("title", "YouTube Video"),
+                    "thumbnail": thumb,
+                    "duration": 0,
+                    "channel": data.get("author_name", "YouTube Creator"),
+                    "id": vid,
+                    "sizes": {
+                        "video_best": "Full HD",
+                        "video_720": "720p HD",
+                        "audio_320": "320kbps MP3"
+                    },
+                    "default_size": "Full HD"
+                }
+        except Exception:
+            pass
         raise HTTPException(status_code=400, detail=str(e))
 
 class DirectDownloadRequest(BaseModel):

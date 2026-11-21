@@ -1,10 +1,11 @@
 FROM python:3.10-slim
 
-# Install system dependencies (FFmpeg is required for video and audio operations)
+# Install system dependencies (FFmpeg is required for video/audio, Node.js for yt-dlp JS challenges)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     git \
     curl \
+    nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up non-root user
