@@ -17,9 +17,11 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-# Install Python requirements
+# Install Python requirements and ensure yt-dlp is always on latest release
 COPY --chown=user:user requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip setuptools \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir --upgrade yt-dlp
 
 # Copy full application code
 COPY --chown=user:user . .

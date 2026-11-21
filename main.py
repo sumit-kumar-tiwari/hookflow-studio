@@ -652,7 +652,25 @@ def get_youtube_meta(url: str):
     """Fetches YouTube video title, thumbnail, duration, and calculated file sizes."""
     try:
         import yt_dlp
-        ydl_opts = {'quiet': True, 'no_warnings': True, 'skip_download': True, 'source_address': '0.0.0.0'}
+        ydl_opts = {
+            'quiet': True,
+            'no_warnings': True,
+            'skip_download': True,
+            'geo_bypass': True,
+            'nocheckcertificate': True,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'ios', 'web'],
+                    'player_skip': ['webpage', 'configs'],
+                }
+            },
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                'Accept-Language': 'en-US,en;q=0.9',
+            }
+        }
+        if os.name == 'nt':
+            ydl_opts['source_address'] = '0.0.0.0'
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             sizes = extract_format_sizes(info)

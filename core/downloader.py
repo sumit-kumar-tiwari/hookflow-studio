@@ -8,24 +8,37 @@ def sanitize_filename(name: str) -> str:
 
 def get_base_ydl_opts(output_dir: str) -> dict:
     """
-    Returns rock-solid yt-dlp options:
-    - source_address '0.0.0.0' forces IPv4, completely eliminating the common
-      'Connection to *.googlevideo.com timed out' error on Indian ISPs (Jio/Airtel/etc.)
-      where IPv6 CDN routes are blocked/unroutable.
+    Returns rock-solid yt-dlp options configured for cloud datacenters (Render/AWS/etc.)
+    and local setups:
+    - Uses Android & iOS InnerTube player clients to bypass YouTube's datacenter bot checks
+    - Sets realistic user-agent headers
+    - Handles IPv4 routing
     """
-    return {
+    opts = {
         'outtmpl': os.path.join(output_dir, '%(id)s.%(ext)s'),
         'noplaylist': True,
         'quiet': True,
         'no_warnings': True,
-        'socket_timeout': 25,
+        'socket_timeout': 30,
         'retries': 5,
         'fragment_retries': 5,
-        'source_address': '0.0.0.0', # Force IPv4 - Fixes googlevideo.com connection timeout!
         'http_chunk_size': 10485760, # 10MB chunk size prevents throttling
         'geo_bypass': True,
         'nocheckcertificate': True,
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'ios', 'web'],
+                'player_skip': ['webpage', 'configs'],
+            }
+        },
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9',
+        }
     }
+    if os.name == 'nt':
+        opts['source_address'] = '0.0.0.0'
+    return opts
 
 def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
     """
