@@ -826,6 +826,56 @@ def get_job_status(job_id: str):
         raise HTTPException(status_code=404, detail="Job not found")
     return jobs[job_id]
 
+@app.get("/api/admin/debug-formats")
+def debug_formats(url: str = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
+    import yt_dlp, shutil
+    from core.downloader import get_base_ydl_opts, COOKIES_PATH
+    opts = get_base_ydl_opts("")
+    opts['skip_download'] = True
+    
+    cookies_info = {
+        "path": COOKIES_PATH,
+        "exists": os.path.exists(COOKIES_PATH),
+        "size": os.path.getsize(COOKIES_PATH) if os.path.exists(COOKIES_PATH) else 0,
+    }
+    if os.path.exists(COOKIES_PATH):
+        try:
+            with open(COOKIES_PATH, "r", encoding="utf-8", errors="ignore") as f:
+                lines = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+                cookies_info["total_cookie_lines"] = len(lines)
+                cookies_info["first_line_preview"] = lines[0][:80] if lines else "Empty"
+        except Exception as e:
+            cookies_info["read_error"] = str(e)
+            
+    deno_path = shutil.which("deno")
+    node_path = shutil.which("node")
+    
+    formats_list = []
+    err = None
+    try:
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            for f in info.get("formats", []):
+                formats_list.append({
+                    "id": f.get("format_id"),
+                    "ext": f.get("ext"),
+                    "res": f.get("resolution"),
+                    "vcodec": f.get("vcodec"),
+                    "acodec": f.get("acodec")
+                })
+    except Exception as e:
+        err = str(e)
+        
+    return {
+        "ytdlp_version": yt_dlp.version.__version__,
+        "deno": deno_path,
+        "node": node_path,
+        "cookies": cookies_info,
+        "error": err,
+        "formats_count": len(formats_list),
+        "formats": formats_list[:20]
+    }
+
 @app.get("/api/media/preview/{clip_filename}")
 def preview_video(clip_filename: str):
     clip_path = os.path.join(CLIPS_DIR, clip_filename)
