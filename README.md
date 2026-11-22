@@ -18,14 +18,14 @@ An open-source media toolkit featuring:
 > Please read [PROJECT_POSTMORTEM.md](PROJECT_POSTMORTEM.md) for a comprehensive deep-dive into why free-tier cloud deployment (Render/AWS) triggers YouTube datacenter bot-blocks (SABR / PO Token), and how to run this project smoothly locally or with residential proxies.
 
 ## Quickstart (Local Run — 100% Free & Zero Cookies)
-Aapke local machine/laptop par bina kisi cookie ke full speed me chalta hai:
+Runs at maximum speed on your local machine with zero cookie requirements:
 ```bash
 run.bat
 ```
 Server boots locally at `http://localhost:8000`.
 
 ### Public Access via Free Cloudflare Tunnel
-Apne laptop server ko poori duniya ke liye free me live karne ke liye:
+To securely expose your local instance to the internet for mobile or public testing:
 ```bash
 cloudflared tunnel --url http://localhost:8000
 ```
