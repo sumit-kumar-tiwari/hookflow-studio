@@ -17,10 +17,15 @@ def extract_youtube_id(url: str) -> str:
     m = re.search(r'(?:v=|\/v\/|\/embed\/|\/shorts\/|\/live\/|youtu\.be\/)([\w-]{11})', url)
     return m.group(1) if m else None
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STORAGE_DIR = os.path.join(BASE_DIR, "storage")
+COOKIES_PATH = os.path.join(STORAGE_DIR, "cookies.txt")
+
 def get_base_ydl_opts(output_dir: str) -> dict:
     """
     Returns rock-solid yt-dlp options configured for cloud datacenters (Render/AWS/etc.)
     and local setups. Uses iOS & Android clients which do NOT require a JS player or PO Token.
+    Supports authenticated cookies to permanently bypass YouTube bot-checks.
     """
     opts = {
         'outtmpl': os.path.join(output_dir, '%(id)s.%(ext)s'),
@@ -45,6 +50,18 @@ def get_base_ydl_opts(output_dir: str) -> dict:
     }
     if os.name == 'nt':
         opts['source_address'] = '0.0.0.0'
+
+    # Permanent Anti-Bot Bypass: Use cookies if present
+    if os.path.exists(COOKIES_PATH) and os.path.getsize(COOKIES_PATH) > 50:
+        opts['cookiefile'] = COOKIES_PATH
+    elif os.environ.get("YOUTUBE_COOKIES"):
+        try:
+            with open(COOKIES_PATH, "w", encoding="utf-8") as f:
+                f.write(os.environ.get("YOUTUBE_COOKIES").strip())
+            opts['cookiefile'] = COOKIES_PATH
+        except Exception:
+            pass
+
     return opts
 
 def stream_download_file(url: str, out_path: str, progress_hook=None):
@@ -259,7 +276,7 @@ def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
     """
     os.makedirs(output_dir, exist_ok=True)
     ydl_opts = get_base_ydl_opts(output_dir)
-    ydl_opts['format'] = 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
+    ydl_opts['format'] = 'bestvideo*[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo*[height<=1080]+bestaudio/best*[height<=1080]/best'
     ydl_opts['merge_output_format'] = 'mp4'
 
     if progress_hook:
@@ -344,16 +361,16 @@ def download_media_direct(url: str, output_dir: str, quality="video_1080", progr
     elif quality == "audio_m4a":
         ydl_opts['format'] = 'bestaudio[ext=m4a]/bestaudio/best'
     elif quality == "video_720":
-        ydl_opts['format'] = 'bestvideo[height<=720]+bestaudio/best[height<=720]/best'
+        ydl_opts['format'] = 'bestvideo*[height<=720]+bestaudio/best*[height<=720]/best'
         ydl_opts['merge_output_format'] = 'mp4'
     elif quality == "video_480":
-        ydl_opts['format'] = 'bestvideo[height<=480]+bestaudio/best[height<=480]/best'
+        ydl_opts['format'] = 'bestvideo*[height<=480]+bestaudio/best*[height<=480]/best'
         ydl_opts['merge_output_format'] = 'mp4'
     elif quality == "video_360":
-        ydl_opts['format'] = 'bestvideo[height<=360]+bestaudio/best[height<=360]/best'
+        ydl_opts['format'] = 'bestvideo*[height<=360]+bestaudio/best*[height<=360]/best'
         ydl_opts['merge_output_format'] = 'mp4'
     else: # 1080p / best
-        ydl_opts['format'] = 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
+        ydl_opts['format'] = 'bestvideo*[height<=1080]+bestaudio/best*[height<=1080]/best'
         ydl_opts['merge_output_format'] = 'mp4'
 
     try:

@@ -510,6 +510,28 @@ def test_sheet_connection(req: SaveSheetWebhookRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to connect to Google Sheet: {str(e)}")
 
+class SaveCookiesRequest(BaseModel):
+    cookies_content: str
+
+@app.get("/api/admin/cookies-status")
+def get_cookies_status():
+    cookies_file = os.path.join(STORAGE_DIR, "cookies.txt")
+    has_cookies = os.path.exists(cookies_file) and os.path.getsize(cookies_file) > 50
+    return {
+        "has_cookies": has_cookies,
+        "size": os.path.getsize(cookies_file) if has_cookies else 0
+    }
+
+@app.post("/api/admin/save-cookies")
+def save_youtube_cookies(req: SaveCookiesRequest):
+    content = req.cookies_content.strip()
+    if not content:
+        raise HTTPException(status_code=400, detail="Cookies content cannot be empty.")
+    cookies_file = os.path.join(STORAGE_DIR, "cookies.txt")
+    with open(cookies_file, "w", encoding="utf-8") as f:
+        f.write(content)
+    return {"status": "ok", "message": "YouTube Cookies saved successfully! Anti-bot bypass is now ACTIVE."}
+
 @app.post("/api/jobs/create-url")
 def create_job_from_url(req: URLJobRequest, background_tasks: BackgroundTasks):
     job_id = str(uuid.uuid4())[:8]
@@ -693,18 +715,51 @@ def get_youtube_meta(url: str):
             if resp.status_code == 200:
                 data = resp.json()
                 thumb = f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg" if vid else data.get("thumbnail_url")
+
+                # Fetch real duration from watch HTML
+                duration = 0
+                if vid:
+                    try:
+                        wp = requests.get(f"https://www.youtube.com/watch?v={vid}", headers={"User-Agent": "Mozilla/5.0"}, timeout=3)
+                        if wp.status_code == 200:
+                            m_dur = re.search(r'"approxDurationMs"\s*:\s*"(\d+)"', wp.text)
+                            if m_dur:
+                                duration = int(m_dur.group(1)) // 1000
+                            else:
+                                m_sec = re.search(r'"lengthSeconds"\s*:\s*"(\d+)"', wp.text)
+                                if m_sec:
+                                    duration = int(m_sec.group(1))
+                    except Exception:
+                        pass
+
+                eff_dur = duration if duration > 0 else 210
+                sz_1080 = format_bytes(int(3600 * 1000 / 8 * eff_dur))
+                sz_720 = format_bytes(int(1900 * 1000 / 8 * eff_dur))
+                sz_480 = format_bytes(int(950 * 1000 / 8 * eff_dur))
+                sz_360 = format_bytes(int(520 * 1000 / 8 * eff_dur))
+                sz_mp3_320 = format_bytes(int(320 * 1000 / 8 * eff_dur))
+                sz_mp3_192 = format_bytes(int(192 * 1000 / 8 * eff_dur))
+                sz_mp3_128 = format_bytes(int(128 * 1000 / 8 * eff_dur))
+                sz_m4a = format_bytes(int(128 * 1000 / 8 * eff_dur))
+
                 return {
                     "title": data.get("title", "YouTube Video"),
                     "thumbnail": thumb,
-                    "duration": 0,
+                    "duration": duration,
                     "channel": data.get("author_name", "YouTube Creator"),
                     "id": vid,
                     "sizes": {
-                        "video_best": "Full HD",
-                        "video_720": "720p HD",
-                        "audio_320": "320kbps MP3"
+                        "video_best": sz_1080,
+                        "video_720": sz_720,
+                        "video_480": sz_480,
+                        "video_360": sz_360,
+                        "audio_320": sz_mp3_320,
+                        "audio_192": sz_mp3_192,
+                        "audio_128": sz_mp3_128,
+                        "audio_m4a": sz_m4a,
+                        "default_size": sz_1080
                     },
-                    "default_size": "Full HD"
+                    "default_size": sz_1080
                 }
         except Exception:
             pass
