@@ -41,7 +41,7 @@ def get_base_ydl_opts(output_dir: str) -> dict:
         'nocheckcertificate': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['android', 'ios', 'tv_samsung', 'web_safari', 'web'],
+                'player_client': ['android', 'ios', 'web_safari', 'web', 'mweb'],
             }
         },
         'http_headers': {
@@ -249,6 +249,31 @@ def download_via_invidious(video_id: str, output_dir: str, quality: str = "video
                             'duration': duration,
                             'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
                         }
+                    else:
+                        video_streams = [f for f in data.get("adaptiveFormats", []) if str(f.get("type", "")).startswith("video/")]
+                        audio_streams = [f for f in data.get("adaptiveFormats", []) if str(f.get("type", "")).startswith("audio/")]
+                        if video_streams and audio_streams:
+                            video_streams.sort(key=lambda x: int(x.get("bitrate") or 0), reverse=True)
+                            audio_streams.sort(key=lambda x: int(x.get("bitrate") or 0), reverse=True)
+                            v_url = video_streams[0].get("url")
+                            a_url = audio_streams[0].get("url")
+                            temp_v = os.path.join(output_dir, f"{file_id}_v.tmp")
+                            temp_a = os.path.join(output_dir, f"{file_id}_a.tmp")
+                            stream_download_file(v_url, temp_v, progress_hook)
+                            stream_download_file(a_url, temp_a, None)
+                            cmd = ["ffmpeg", "-y", "-i", temp_v, "-i", temp_a, "-c:v", "copy", "-c:a", "aac", final_path]
+                            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+                            for t in [temp_v, temp_a]:
+                                if os.path.exists(t):
+                                    try: os.remove(t)
+                                    except: pass
+                            return {
+                                'file_path': os.path.abspath(final_path),
+                                'filename': final_filename,
+                                'title': title,
+                                'duration': duration,
+                                'filesize': os.path.getsize(final_path) if os.path.exists(final_path) else 0
+                            }
         except Exception:
             continue
     return None
@@ -277,7 +302,8 @@ def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
     """
     os.makedirs(output_dir, exist_ok=True)
     ydl_opts = get_base_ydl_opts(output_dir)
-    ydl_opts['format'] = 'bestvideo*[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo*[height<=1080]+bestaudio/best*[height<=1080]/best'
+    ydl_opts['format_sort'] = ['res:1080', 'ext:mp4:m4a']
+    ydl_opts['format'] = 'bv*+ba/b'
     ydl_opts['merge_output_format'] = 'mp4'
 
     if progress_hook:
@@ -342,39 +368,43 @@ def download_media_direct(url: str, output_dir: str, quality="video_1080", progr
     is_audio = quality.startswith("audio_")
 
     if quality in ["audio_320", "audio_mp3"]:
-        ydl_opts['format'] = 'bestaudio/best'
+        ydl_opts['format'] = 'ba/b'
         ydl_opts['postprocessors'] = [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '320',
         }]
     elif quality == "audio_192":
-        ydl_opts['format'] = 'bestaudio/best'
+        ydl_opts['format'] = 'ba/b'
         ydl_opts['postprocessors'] = [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }]
     elif quality == "audio_128":
-        ydl_opts['format'] = 'bestaudio/best'
+        ydl_opts['format'] = 'ba/b'
         ydl_opts['postprocessors'] = [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '128',
         }]
     elif quality == "audio_m4a":
-        ydl_opts['format'] = 'bestaudio[ext=m4a]/bestaudio/best'
+        ydl_opts['format'] = 'ba[ext=m4a]/ba/b'
     elif quality == "video_720":
-        ydl_opts['format'] = 'bestvideo*[height<=720]+bestaudio/best*[height<=720]/best'
+        ydl_opts['format_sort'] = ['res:720', 'ext:mp4:m4a']
+        ydl_opts['format'] = 'bv*+ba/b'
         ydl_opts['merge_output_format'] = 'mp4'
     elif quality == "video_480":
-        ydl_opts['format'] = 'bestvideo*[height<=480]+bestaudio/best*[height<=480]/best'
+        ydl_opts['format_sort'] = ['res:480', 'ext:mp4:m4a']
+        ydl_opts['format'] = 'bv*+ba/b'
         ydl_opts['merge_output_format'] = 'mp4'
     elif quality == "video_360":
-        ydl_opts['format'] = 'bestvideo*[height<=360]+bestaudio/best*[height<=360]/best'
+        ydl_opts['format_sort'] = ['res:360', 'ext:mp4:m4a']
+        ydl_opts['format'] = 'bv*+ba/b'
         ydl_opts['merge_output_format'] = 'mp4'
     else: # 1080p / best
-        ydl_opts['format'] = 'bestvideo*[height<=1080]+bestaudio/best*[height<=1080]/best'
+        ydl_opts['format_sort'] = ['res:1080', 'ext:mp4:m4a']
+        ydl_opts['format'] = 'bv*+ba/b'
         ydl_opts['merge_output_format'] = 'mp4'
 
     try:
