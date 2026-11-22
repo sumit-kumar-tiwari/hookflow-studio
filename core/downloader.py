@@ -39,11 +39,6 @@ def get_base_ydl_opts(output_dir: str) -> dict:
         'http_chunk_size': 10485760, # 10MB chunk size prevents throttling
         'geo_bypass': True,
         'nocheckcertificate': True,
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['android', 'ios', 'web_safari', 'web', 'mweb'],
-            }
-        },
         'http_headers': {
             'Accept-Language': 'en-US,en;q=0.9',
         }
