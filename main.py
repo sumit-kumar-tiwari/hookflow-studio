@@ -674,31 +674,17 @@ def get_youtube_meta(url: str):
     """Fetches YouTube video title, thumbnail, duration, and calculated file sizes."""
     try:
         import yt_dlp
-        ydl_opts = {
-            'quiet': True,
-            'no_warnings': True,
-            'skip_download': True,
-            'geo_bypass': True,
-            'nocheckcertificate': True,
-            'extractor_args': {
-                'youtube': {
-                    'player_client': ['tv_samsung', 'android', 'ios', 'web'],
-                }
-            },
-            'http_headers': {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-                'Accept-Language': 'en-US,en;q=0.9',
-            }
-        }
-        if os.name == 'nt':
-            ydl_opts['source_address'] = '0.0.0.0'
+        from core.downloader import get_base_ydl_opts
+        ydl_opts = get_base_ydl_opts("")
+        ydl_opts['skip_download'] = True
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             sizes = extract_format_sizes(info)
+            dur = info.get("duration", 0)
             return {
                 "title": info.get("title", "YouTube Video"),
                 "thumbnail": info.get("thumbnail"),
-                "duration": info.get("duration", 0),
+                "duration": dur if dur > 0 else 210,
                 "channel": info.get("uploader") or info.get("channel", "YouTube Channel"),
                 "id": info.get("id"),
                 "sizes": sizes,
@@ -732,6 +718,18 @@ def get_youtube_meta(url: str):
                     except Exception:
                         pass
 
+                if not duration or duration <= 0:
+                    for api_url in [f"https://inv.nadeko.net/api/v1/videos/{vid}", f"https://invidious.nerdvpn.de/api/v1/videos/{vid}"]:
+                        try:
+                            ir = requests.get(api_url, timeout=2)
+                            if ir.status_code == 200:
+                                d_val = ir.json().get("lengthSeconds")
+                                if d_val and int(d_val) > 0:
+                                    duration = int(d_val)
+                                    break
+                        except Exception:
+                            pass
+
                 eff_dur = duration if duration > 0 else 210
                 sz_1080 = format_bytes(int(3600 * 1000 / 8 * eff_dur))
                 sz_720 = format_bytes(int(1900 * 1000 / 8 * eff_dur))
@@ -745,7 +743,7 @@ def get_youtube_meta(url: str):
                 return {
                     "title": data.get("title", "YouTube Video"),
                     "thumbnail": thumb,
-                    "duration": duration,
+                    "duration": eff_dur,
                     "channel": data.get("author_name", "YouTube Creator"),
                     "id": vid,
                     "sizes": {

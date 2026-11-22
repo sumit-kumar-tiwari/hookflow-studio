@@ -1,5 +1,8 @@
 FROM python:3.10-slim
 
+# Copy official Deno binary for yt-dlp JavaScript challenge solver
+COPY --from=denoland/deno:bin /deno /usr/local/bin/deno
+
 # Install system dependencies (FFmpeg for video/audio, Node.js for yt-dlp challenges)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
@@ -10,9 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Install Python requirements cleanly as root
+# Install Python requirements cleanly as root and upgrade yt-dlp to latest
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -U yt-dlp
 
 # Copy application files
 COPY . .

@@ -24,11 +24,12 @@ COOKIES_PATH = os.path.join(STORAGE_DIR, "cookies.txt")
 def get_base_ydl_opts(output_dir: str) -> dict:
     """
     Returns rock-solid yt-dlp options configured for cloud datacenters (Render/AWS/etc.)
-    and local setups. Uses iOS & Android clients which do NOT require a JS player or PO Token.
+    and local setups. Uses authentic Android/iOS/TV clients.
     Supports authenticated cookies to permanently bypass YouTube bot-checks.
     """
+    out_template = os.path.join(output_dir, '%(id)s.%(ext)s') if output_dir else '%(id)s.%(ext)s'
     opts = {
-        'outtmpl': os.path.join(output_dir, '%(id)s.%(ext)s'),
+        'outtmpl': out_template,
         'noplaylist': True,
         'quiet': True,
         'no_warnings': True,
@@ -40,27 +41,27 @@ def get_base_ydl_opts(output_dir: str) -> dict:
         'nocheckcertificate': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['ios', 'android', 'android_vr', 'web'],
+                'player_client': ['android', 'ios', 'tv_samsung', 'web_safari', 'web'],
             }
         },
         'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
         }
     }
     if os.name == 'nt':
         opts['source_address'] = '0.0.0.0'
 
-    # Permanent Anti-Bot Bypass: Use cookies if present
-    if os.path.exists(COOKIES_PATH) and os.path.getsize(COOKIES_PATH) > 50:
-        opts['cookiefile'] = COOKIES_PATH
-    elif os.environ.get("YOUTUBE_COOKIES"):
+    # Permanent Anti-Bot Bypass: Use cookies if present or from env var
+    os.makedirs(STORAGE_DIR, exist_ok=True)
+    if os.environ.get("YOUTUBE_COOKIES"):
         try:
             with open(COOKIES_PATH, "w", encoding="utf-8") as f:
                 f.write(os.environ.get("YOUTUBE_COOKIES").strip())
-            opts['cookiefile'] = COOKIES_PATH
         except Exception:
             pass
+
+    if os.path.exists(COOKIES_PATH) and os.path.getsize(COOKIES_PATH) > 50:
+        opts['cookiefile'] = COOKIES_PATH
 
     return opts
 
@@ -312,13 +313,16 @@ def download_video(url: str, output_dir: str, progress_hook=None) -> dict:
         print(f"[HookFlow] yt-dlp download failed: {e}. Attempting stream fallback...")
         vid = extract_youtube_id(url)
         if vid:
-            res = download_fallback_engine(vid, output_dir, quality="video_720", progress_hook=progress_hook)
-            return {
-                'video_path': res['file_path'],
-                'title': res['title'],
-                'duration': res['duration'],
-                'id': vid
-            }
+            try:
+                res = download_fallback_engine(vid, output_dir, quality="video_720", progress_hook=progress_hook)
+                return {
+                    'video_path': res['file_path'],
+                    'title': res['title'],
+                    'duration': res['duration'],
+                    'id': vid
+                }
+            except Exception:
+                raise Exception(f"{str(e)} | YouTube stream unavailable on cloud server. Please configure cookies or run locally.")
         raise e
 
 def download_media_direct(url: str, output_dir: str, quality="video_1080", progress_hook=None) -> dict:
@@ -410,5 +414,8 @@ def download_media_direct(url: str, output_dir: str, quality="video_1080", progr
         print(f"[HookFlow] yt-dlp direct failed: {e}. Trying multi-tiered stream resolvers...")
         vid = extract_youtube_id(url)
         if vid:
-            return download_fallback_engine(vid, output_dir, quality=quality, progress_hook=progress_hook)
+            try:
+                return download_fallback_engine(vid, output_dir, quality=quality, progress_hook=progress_hook)
+            except Exception:
+                raise Exception(f"{str(e)} | YouTube stream unavailable on cloud server. Please configure cookies or run locally.")
         raise e
